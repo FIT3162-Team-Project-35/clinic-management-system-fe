@@ -20,7 +20,7 @@ import { FaUserAlt, FaLock } from "react-icons/fa";
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
-const App = () => {
+function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowClick = () => setShowPassword(!showPassword);
@@ -40,8 +40,8 @@ const App = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Avatar bg="teal.500" />
-        <Heading color="teal.400">Welcome</Heading>
+        <Avatar bg="blue.500" size="2xl" />
+        <Heading color="blue.400">Clinic Magement System</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
           <form>
             <Stack
@@ -84,7 +84,7 @@ const App = () => {
                 borderRadius={0}
                 type="submit"
                 variant="solid"
-                colorScheme="teal"
+                colorScheme="blue"
                 width="full"
               >
                 Login
@@ -93,14 +93,8 @@ const App = () => {
           </form>
         </Box>
       </Stack>
-      <Box>
-        New to us?{" "}
-        <Link color="teal.500" href="#">
-          Sign Up
-        </Link>
-      </Box>
     </Flex>
   );
-};
+}
 
-export default App;
+export default Login;

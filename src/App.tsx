@@ -5,9 +5,7 @@ import SideBar from "../src/components/SideBar";
 function App() {
   return (
     <BrowserRouter>
-      <SideBar>
-        <ApplicationRoute />
-      </SideBar>
+      <ApplicationRoute />
     </BrowserRouter>
   );
 }
