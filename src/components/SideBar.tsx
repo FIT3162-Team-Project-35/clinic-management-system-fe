@@ -28,16 +28,18 @@ import { MdOutlineEventAvailable } from "react-icons/md";
 import { FaNotesMedical } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
+import {NavLink as RouterLink} from "react-router-dom";
 
 interface LinkItemProps {
   name: string;
   icon: IconType;
+  href: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Dashboard", icon: FiHome },
-  { name: "Patients", icon: FiUsers },
-  { name: "Appointments", icon: MdOutlineEventAvailable },
-  { name: "Encounters", icon: FaNotesMedical },
+  { name: "Dashboard", icon: FiHome , href: "/Home"},
+  { name: "Patients", icon: FiUsers, href: "/patients" },
+  { name: "Appointments", icon: MdOutlineEventAvailable, href: "/Appointments" },
+  { name: "Encounters", icon: FaNotesMedical, href: "/Encounters" },
 ];
 
 export default function SidebarWithHeader({
@@ -92,12 +94,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Group MSC 9
+          CMS
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} href={link.href}>
           {link.name}
         </NavItem>
       ))}
@@ -107,12 +109,14 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
+  href: string;
   children: ReactText;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
   return (
     <Link
-      href="#"
+      as={RouterLink}
+      to={href}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
