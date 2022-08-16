@@ -3,6 +3,7 @@ import Appointments from "./pages/Appointments";
 import Homepage from "./pages/Home";
 import Login from "./pages/Login";
 import Patients from "./pages/Patients"
+import Encounters from "./pages/Encountets";
 
 const ApplicationRoute = () => {
   return (
@@ -10,7 +11,8 @@ const ApplicationRoute = () => {
       <Route path="/home" element={<Homepage />} />
       <Route path="/appointment" element={<Appointments />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/patients" element={<Patients />} />
+      <Route path="/patient" element={<Patients />} />
+      <Route path="/encounter" element = {<Encounters />}/>
     </Routes>
   );
 };

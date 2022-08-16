@@ -36,10 +36,10 @@ interface LinkItemProps {
   href: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Dashboard", icon: FiHome , href: "/Home"},
-  { name: "Patients", icon: FiUsers, href: "/patients" },
-  { name: "Appointments", icon: MdOutlineEventAvailable, href: "/Appointments" },
-  { name: "Encounters", icon: FaNotesMedical, href: "/Encounters" },
+  { name: "Dashboard", icon: FiHome , href: "/home"},
+  { name: "Patients", icon: FiUsers, href: "/patient" },
+  { name: "Appointments", icon: MdOutlineEventAvailable, href: "/appointment" },
+  { name: "Encounters", icon: FaNotesMedical, href: "/encounter" },
 ];
 
 export default function SidebarWithHeader({
