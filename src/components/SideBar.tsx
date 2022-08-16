@@ -21,19 +21,9 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Container,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiUsers,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-  FiBell,
-  FiChevronDown,
-  FiArrowDownRight,
-} from "react-icons/fi";
+import { FiHome, FiUsers, FiMenu, FiChevronDown } from "react-icons/fi";
 import { MdOutlineEventAvailable } from "react-icons/md";
 import { FaNotesMedical } from "react-icons/fa";
 import { IconType } from "react-icons";
@@ -77,7 +67,7 @@ export default function SidebarWithHeader({
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 250 }} p="4" bgColor={"white"} m={"5"}>
         {children}
       </Box>
     </Box>
