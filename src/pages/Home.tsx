@@ -1,9 +1,10 @@
 import { Text, Stack } from "@chakra-ui/react";
-
+import PatientTable from "../components/PatientTable";
 function Home() {
   return (
     <div>
       <Text fontSize="6xl">Clinic Management System</Text>
+      <PatientTable></PatientTable>
       {/* <Text fontSize="4xl">(4xl) In love with React & Next</Text>
       <Text fontSize="3xl">(3xl) In love with React & Next</Text>
       <Text fontSize="2xl">(2xl) In love with React & Next</Text>
