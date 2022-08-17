@@ -3,13 +3,11 @@ import PatientTable from "../components/PatientTable";
 import SideBar from "../components/SideBar";
 
 function Patients() {
-    return (
-      <SideBar>
-        <Text fontSize="6xl">Patients Table</Text>
-        <PatientTable></PatientTable>
-      </SideBar>
-    );
-  }
-  
-  export default Patients;
-  
+  return (
+    <SideBar active="/patient">
+      <PatientTable></PatientTable>
+    </SideBar>
+  );
+}
+
+export default Patients;

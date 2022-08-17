@@ -28,7 +28,7 @@ import { MdOutlineEventAvailable } from "react-icons/md";
 import { FaNotesMedical } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
-import {NavLink as RouterLink} from "react-router-dom";
+import { NavLink as RouterLink } from "react-router-dom";
 
 interface LinkItemProps {
   name: string;
@@ -36,21 +36,24 @@ interface LinkItemProps {
   href: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Dashboard", icon: FiHome , href: "/home"},
+  { name: "Dashboard", icon: FiHome, href: "/home" },
   { name: "Patients", icon: FiUsers, href: "/patient" },
   { name: "Appointments", icon: MdOutlineEventAvailable, href: "/appointment" },
   { name: "Encounters", icon: FaNotesMedical, href: "/encounter" },
 ];
 
 export default function SidebarWithHeader({
+  active,
   children,
 }: {
+  active: string;
   children: ReactNode;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent
+        active={active}
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
       />
@@ -64,7 +67,7 @@ export default function SidebarWithHeader({
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent active={active} onClose={onClose} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
@@ -77,10 +80,11 @@ export default function SidebarWithHeader({
 }
 
 interface SidebarProps extends BoxProps {
+  active: string;
   onClose: () => void;
 }
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+const SidebarContent = ({ active, onClose, ...rest }: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
@@ -99,7 +103,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} href={link.href}>
+        <NavItem
+          key={link.name}
+          icon={link.icon}
+          href={link.href}
+          active={active}
+        >
           {link.name}
         </NavItem>
       ))}
@@ -110,9 +119,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface NavItemProps extends FlexProps {
   icon: IconType;
   href: string;
+  active: string;
   children: ReactText;
 }
-const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, href, active, children, ...rest }: NavItemProps) => {
   return (
     <Link
       as={RouterLink}
@@ -127,8 +137,9 @@ const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
         borderRadius="lg"
         role="group"
         cursor="pointer"
+        bg={href == active ? "blue.400" : ""}
         _hover={{
-          bg: "cyan.400",
+          bg: "blue.400",
           color: "white",
         }}
         {...rest}

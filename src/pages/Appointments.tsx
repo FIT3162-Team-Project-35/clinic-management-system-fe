@@ -3,7 +3,7 @@ import SideBar from "../components/SideBar";
 
 function Appointments() {
   return (
-    <SideBar>
+    <SideBar active={"/appointment"}>
       <div>
         <Text fontSize="6xl">Appointment</Text>
         <Text fontSize="5xl"></Text>
