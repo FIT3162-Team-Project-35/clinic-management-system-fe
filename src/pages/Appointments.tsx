@@ -1,16 +1,15 @@
 import { Text, Stack, Button } from "@chakra-ui/react";
 import SideBar from "../components/SideBar";
+import AppointmentTable from "../components/AppointmentTable";
 
 function Appointments() {
   return (
     <SideBar active={"/appointment"}>
-      <div>
-        <Text fontSize="6xl">Appointment</Text>
-        <Text fontSize="5xl"></Text>
-        <Button colorScheme="blue">Button</Button>
-      </div>
+      <AppointmentTable></AppointmentTable>
     </SideBar>
   );
 }
 
 export default Appointments;
+
+
