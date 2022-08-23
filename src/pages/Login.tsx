@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Flex,
   Heading,
@@ -14,16 +14,47 @@ import {
   FormControl,
   FormHelperText,
   InputRightElement,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import ApiService from "../services/ApiService";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../store/auth.slice";
+import { store } from "../store";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleShowClick = () => setShowPassword(!showPassword);
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+    ApiService.post("/auth/login", {
+      email: email,
+      password: password,
+    })
+      .then((response) => {
+        const { token, user } = response.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", user);
+        dispatch(setCredentials({ token, user }));
+        navigate("/home");
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err && err.response) {
+          setMessage(err.response.data.message);
+        }
+      });
+  };
 
   return (
     <Flex
@@ -42,6 +73,12 @@ function Login() {
       >
         <Avatar bg="blue.500" size="2xl" />
         <Heading color="blue.400">Clinic Magement System</Heading>
+        {message && (
+          <Alert status="error">
+            <AlertIcon />
+            {message}
+          </Alert>
+        )}
         <Box minW={{ base: "90%", md: "468px" }}>
           <form>
             <Stack
@@ -56,7 +93,11 @@ function Login() {
                     pointerEvents="none"
                     children={<CFaUserAlt color="gray.300" />}
                   />
-                  <Input type="email" placeholder="email address" />
+                  <Input
+                    type="email"
+                    placeholder="email address"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -69,6 +110,7 @@ function Login() {
                   <Input
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleShowClick}>
@@ -86,6 +128,7 @@ function Login() {
                 variant="solid"
                 colorScheme="blue"
                 width="full"
+                onClick={onSubmit}
               >
                 Login
               </Button>

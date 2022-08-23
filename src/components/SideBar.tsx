@@ -28,7 +28,9 @@ import { MdOutlineEventAvailable } from "react-icons/md";
 import { FaNotesMedical } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
-import { NavLink as RouterLink } from "react-router-dom";
+import { NavLink as RouterLink, useNavigate } from "react-router-dom";
+import { setCredentials } from "../store/auth.slice";
+import { useDispatch } from "react-redux";
 
 interface LinkItemProps {
   name: string;
@@ -164,6 +166,15 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    dispatch(setCredentials({ token: null, user: null }));
+
+    navigate("/login");
+  };
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -236,7 +247,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             >
               <MenuItem>Profile</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={logout}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
