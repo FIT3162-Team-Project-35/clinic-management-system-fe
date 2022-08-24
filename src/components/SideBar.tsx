@@ -38,7 +38,7 @@ interface LinkItemProps {
   href: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Dashboard", icon: FiHome, href: "/home" },
+  { name: "Dashboard", icon: FiHome, href: "/" },
   { name: "Patients", icon: FiUsers, href: "/patient" },
   { name: "Appointments", icon: MdOutlineEventAvailable, href: "/appointment" },
   { name: "Encounters", icon: FaNotesMedical, href: "/encounter" },

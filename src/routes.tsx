@@ -11,7 +11,7 @@ const ApplicationRoute = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route element={<RequireAuth />}>
-        <Route path="/home" element={<Homepage />} />
+        <Route path="/" element={<Homepage />} />
         <Route path="/appointment" element={<Appointments />} />
         <Route path="/patient" element={<Patients />} />
         <Route path="/encounter" element={<Encounters />} />

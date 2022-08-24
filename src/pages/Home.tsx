@@ -9,7 +9,7 @@ function Home() {
   const token = useSelector(selectCurrentToken);
   console.log(store.getState());
   return (
-    <SideBar active="/home">
+    <SideBar active="/">
       <div>
         <Text fontSize="6xl">Welcome, {user ? user.name : "User"}</Text>
       </div>

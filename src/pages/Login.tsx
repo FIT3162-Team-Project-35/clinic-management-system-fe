@@ -46,7 +46,7 @@ function Login() {
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(setCredentials({ token, user }));
-        navigate("/home");
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
@@ -59,7 +59,7 @@ function Login() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/home");
+      navigate("/");
     }
   }, []);
 
