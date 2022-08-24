@@ -2,9 +2,12 @@ import { Text, Stack } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import PatientTable from "../components/PatientTable";
 import SideBar from "../components/SideBar";
-import { selectCurrentUser } from "../store/auth.slice";
+import { store } from "../store";
+import { selectCurrentToken, selectCurrentUser } from "../store/auth.slice";
 function Home() {
   const user = useSelector(selectCurrentUser);
+  const token = useSelector(selectCurrentToken);
+  console.log(store.getState());
   return (
     <SideBar active="/home">
       <div>

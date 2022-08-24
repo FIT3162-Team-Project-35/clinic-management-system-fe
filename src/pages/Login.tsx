@@ -20,8 +20,8 @@ import {
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import ApiService from "../services/ApiService";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "../store/auth.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentToken, setCredentials } from "../store/auth.slice";
 import { store } from "../store";
 
 const CFaUserAlt = chakra(FaUserAlt);
@@ -44,7 +44,7 @@ function Login() {
       .then((response) => {
         const { token, user } = response.data;
         localStorage.setItem("token", token);
-        localStorage.setItem("user", user);
+        localStorage.setItem("user", JSON.stringify(user));
         dispatch(setCredentials({ token, user }));
         navigate("/home");
       })
@@ -55,6 +55,13 @@ function Login() {
         }
       });
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/home");
+    }
+  }, []);
 
   return (
     <Flex

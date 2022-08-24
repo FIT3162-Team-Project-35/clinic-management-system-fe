@@ -29,8 +29,8 @@ import { FaNotesMedical } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
 import { NavLink as RouterLink, useNavigate } from "react-router-dom";
-import { setCredentials } from "../store/auth.slice";
-import { useDispatch } from "react-redux";
+import { selectCurrentUser, setCredentials } from "../store/auth.slice";
+import { useDispatch, useSelector } from "react-redux";
 
 interface LinkItemProps {
   name: string;
@@ -168,6 +168,7 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector(selectCurrentUser);
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -231,7 +232,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">Clinic Staff</Text>
+                  <Text fontSize="sm">{user ? user.name : "Clinic Staff"}</Text>
                   <Text fontSize="xs" color="gray.600">
                     Admin
                   </Text>
