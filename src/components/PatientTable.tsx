@@ -4,6 +4,7 @@ import {
   Thead,
   Tbody,
   Box,
+  Link,
   Tag,
   Td,
   Th,
@@ -39,14 +40,35 @@ import {
   flexRender,
   SortingState,
 } from "@tanstack/react-table";
-import { HTMLProps, useState, useRef, useEffect } from "react";
+import { HTMLProps, useState, useRef, useEffect, Fragment } from "react";
+import { format } from "date-fns";
 import customData from "../../patientData.json";
 import Card from "./Card";
+import { NavLink as RouterLink, useNavigate } from "react-router-dom";
 
 interface Data {
   status: boolean;
   name: string;
   id: string;
+}
+
+export interface Patient {
+  firstName: string;
+  lastName: string;
+  contactNumber: string;
+  gender: string;
+  address: string;
+  city: string;
+  postcode: number;
+  dob: string;
+  emergencyFirstName: string;
+  emergencyLastName: string;
+  emergencyContact: string;
+  emergencyRelationship: string;
+  medicalDetails: string;
+  allergicDetails: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 function IndeterminateCheckbox({
@@ -90,56 +112,53 @@ const TableLoading = ({ columnsToLoad = 1, rowsToLoad = 1 }: any) => {
   );
 };
 
-export default function PatientTable() {
-  const defaultData: Data[] = customData;
-  const columns: ColumnDef<Data>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <IndeterminateCheckbox
-          {...{
-            checked: table.getIsAllRowsSelected(),
-            indeterminate: table.getIsSomeRowsSelected(),
-            onChange: table.getToggleAllRowsSelectedHandler(),
-          }}
-        />
-      ),
-      cell: ({ row }) => (
-        <div className="px-1">
-          <IndeterminateCheckbox
-            {...{
-              checked: row.getIsSelected(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler(),
-            }}
-          />
-        </div>
-      ),
-    },
-    {
-      header: () => <span>Id</span>,
-      footer: (info) => info.column.id,
-      cell: (info) => info.getValue(),
-      accessorKey: "id",
-      id: "studentId",
-    },
+export default function PatientTable({ patients }: { patients: any }) {
+  const defaultData: Patient[] = patients;
+  const columns: ColumnDef<Patient>[] = [
+    // {
+    //   id: "select",
+    //   header: ({ table }) => (
+    //     <IndeterminateCheckbox
+    //       {...{
+    //         checked: table.getIsAllRowsSelected(),
+    //         indeterminate: table.getIsSomeRowsSelected(),
+    //         onChange: table.getToggleAllRowsSelectedHandler(),
+    //       }}
+    //     />
+    //   ),
+    //   cell: ({ row }) => (
+    //     <div className="px-1">
+    //       <IndeterminateCheckbox
+    //         {...{
+    //           checked: row.getIsSelected(),
+    //           indeterminate: row.getIsSomeSelected(),
+    //           onChange: row.getToggleSelectedHandler(),
+    //         }}
+    //       />
+    //     </div>
+    //   ),
+    // },
     {
       header: () => <span>Patient Name</span>,
       footer: (info) => info.column.id,
       cell: (info) => info.getValue(),
-      accessorKey: "name",
-      id: "course-name",
+      id: "fullName",
+      accessorFn: (row) => `${row.firstName} ${row.lastName}`,
     },
     {
+      header: () => <span>Created At</span>,
       footer: (info) => info.column.id,
-      header: () => "Status",
-      accessorKey: "status",
-      id: "status",
-      cell: (info) => (
-        <Tag colorScheme={info.getValue() ? "green" : "red"}>
-          {info.getValue() ? "Complete" : "Pending"}
-        </Tag>
-      ),
+      cell: (info) => info.getValue(),
+      id: "createdAt",
+      accessorFn: (row) => `${format(new Date(row.createdAt), "dd/MM/yyyy")}`,
+    },
+    {
+      header: () => <span>Last Updated</span>,
+      footer: (info) => info.column.id,
+      cell: (info) => info.getValue(),
+      id: "updatedAt",
+      accessorFn: (row) =>
+        `${format(new Date(row.updatedAt), "dd/MM/yyyy hh:mm bbb")}`,
     },
   ];
 
@@ -159,17 +178,16 @@ export default function PatientTable() {
 function Table({ data, columns }: { data: any; columns: ColumnDef<any>[] }) {
   const [rowSelection, setRowSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([]);
-  const { onToggle, isOpen } = useDisclosure();
-  const [selectedDataIndex, setSelectedDataIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   setTimeout(() => {
     setLoading(false);
-  }, 1000);
+  }, 3000);
 
-  const onRowClick = (index: number) => {
-    setSelectedDataIndex(index);
-    onToggle();
+  const onRowClick = (index: number, data: Data[]) => {
+    console.log(data[index]);
+    navigate(`/patient/${data[index].id}`);
   };
 
   const table = useReactTable({
@@ -191,6 +209,8 @@ function Table({ data, columns }: { data: any; columns: ColumnDef<any>[] }) {
           <Thead>
             {table.getHeaderGroups().map((headerGroup: any) => (
               <Tr key={headerGroup.id}>
+                <Th>#</Th>
+
                 {headerGroup.headers.map((header: any) => (
                   <Th key={header.id} colSpan={header.colSpan}>
                     {header.id === "select" &&
@@ -234,15 +254,17 @@ function Table({ data, columns }: { data: any; columns: ColumnDef<any>[] }) {
             ) : (
               <>
                 {table.getRowModel().rows.map((row: any, index: number) => (
+                  // <Link as={RouterLink} to={`patient/${data[index]}`}>
                   <Tr
                     key={row.id}
-                    onClick={() => onRowClick(index)}
+                    onClick={() => onRowClick(index, data)}
                     _hover={{
                       cursor: "pointer",
                       bg: "blue.200",
                       rounded: "md",
                     }}
                   >
+                    <Td key={index}>{index + 1}</Td>
                     {row.getVisibleCells().map((cell: any) => (
                       <>
                         <Td key={cell.id}>
@@ -254,6 +276,7 @@ function Table({ data, columns }: { data: any; columns: ColumnDef<any>[] }) {
                       </>
                     ))}
                   </Tr>
+                  // </Link>
                 ))}
               </>
             )}
@@ -346,6 +369,8 @@ function Table({ data, columns }: { data: any; columns: ColumnDef<any>[] }) {
               </option>
             ))}
           </select>
+
+          {/* {JSON.stringify(patients)} */}
         </HStack>
       </Center>
     </Box>
