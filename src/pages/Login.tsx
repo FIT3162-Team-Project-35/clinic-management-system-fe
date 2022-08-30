@@ -22,7 +22,7 @@ import ApiService from "../services/ApiService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentToken, setCredentials } from "../store/auth.slice";
-import { store } from "../store";
+import { Helmet } from "react-helmet";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -32,16 +32,19 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleShowClick = () => setShowPassword(!showPassword);
   const onSubmit = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
     ApiService.post("/auth/login", {
       email: email,
       password: password,
     })
       .then((response) => {
+        setLoading(false);
         const { token, user } = response.data;
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
@@ -72,6 +75,9 @@ function Login() {
       justifyContent="center"
       alignItems="center"
     >
+      <Helmet>
+        <title>Login</title>
+      </Helmet>
       <Stack
         flexDir="column"
         mb="2"
@@ -126,19 +132,35 @@ function Login() {
                   </InputRightElement>
                 </InputGroup>
                 <FormHelperText textAlign="right">
-                  <Link>forgot password?</Link>
+                  {/* <Link>forgot password?</Link> */}
                 </FormHelperText>
               </FormControl>
-              <Button
-                borderRadius={0}
-                type="submit"
-                variant="solid"
-                colorScheme="blue"
-                width="full"
-                onClick={onSubmit}
-              >
-                Login
-              </Button>
+              {!loading && (
+                <Button
+                  borderRadius={0}
+                  type="submit"
+                  variant="solid"
+                  colorScheme="blue"
+                  width="full"
+                  onClick={onSubmit}
+                >
+                  Login
+                </Button>
+              )}
+
+              {loading && (
+                <Button
+                  isLoading
+                  borderRadius={0}
+                  type="submit"
+                  variant="solid"
+                  colorScheme="blue"
+                  width="full"
+                  onClick={onSubmit}
+                >
+                  Login
+                </Button>
+              )}
             </Stack>
           </form>
         </Box>

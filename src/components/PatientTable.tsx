@@ -42,9 +42,9 @@ import {
 } from "@tanstack/react-table";
 import { HTMLProps, useState, useRef, useEffect, Fragment } from "react";
 import { format } from "date-fns";
-import customData from "../../patientData.json";
 import Card from "./Card";
 import { NavLink as RouterLink, useNavigate } from "react-router-dom";
+import { changeDatetoTZ } from "../common/utils";
 
 interface Data {
   status: boolean;

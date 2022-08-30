@@ -11,6 +11,7 @@ import {
   List,
   ListItem,
   SimpleGrid,
+  Skeleton,
   Stack,
   StackDivider,
   Text,
@@ -23,9 +24,12 @@ import SideBar from "../components/SideBar";
 import ApiService from "../services/ApiService";
 import { format } from "date-fns";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+import { changeDatetoTZ } from "../common/utils";
+import { Helmet } from "react-helmet";
 
 function PatientDetails() {
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const [patient, setPatient] = useState({
     address: "",
     allergicDetails: "",
@@ -49,8 +53,8 @@ function PatientDetails() {
   useEffect(() => {
     ApiService.get(`/patient/${id}`)
       .then((response) => {
+        setLoading(false);
         setPatient(response.data);
-        console.log(patient);
       })
       .catch((err) => {
         console.log(err);
@@ -61,6 +65,9 @@ function PatientDetails() {
   }, []);
   return (
     <SideBar active="/patient">
+      <Helmet>
+        <title>Patient Details</title>
+      </Helmet>
       <Container maxW={"7xl"}>
         <Breadcrumb
           spacing="8px"
@@ -127,30 +134,52 @@ function PatientDetails() {
                   </List>
                   <List spacing={2}>
                     <ListItem>
-                      {patient.firstName} {patient.lastName}
+                      {!loading && patient.firstName}{" "}
+                      {!loading && patient.lastName}
+                      {loading && <Skeleton height="20px" />}
                     </ListItem>
-                    <ListItem>{patient.gender}</ListItem>
-                    <ListItem>{patient.contactNumber}</ListItem>
-                    <ListItem>{patient.dob}</ListItem>
-                    <ListItem>{patient.address}</ListItem>
-                    <ListItem>{patient.city}</ListItem>
-                    <ListItem>{patient.postcode}</ListItem>
+                    <ListItem>
+                      {!loading && patient.gender}{" "}
+                      {loading && <Skeleton height="20px" />}
+                    </ListItem>
+                    <ListItem>
+                      {!loading && patient.contactNumber}{" "}
+                      {loading && <Skeleton height="20px" />}
+                    </ListItem>
+                    <ListItem>
+                      {!loading && patient.dob}{" "}
+                      {loading && <Skeleton height="20px" />}
+                    </ListItem>
+                    <ListItem>
+                      {!loading && patient.address}{" "}
+                      {loading && <Skeleton height="20px" />}
+                    </ListItem>
+                    <ListItem>
+                      {!loading && patient.city}{" "}
+                      {loading && <Skeleton height="20px" />}
+                    </ListItem>
+                    <ListItem>
+                      {!loading && patient.postcode}{" "}
+                      {loading && <Skeleton height="20px" />}
+                    </ListItem>
                     <ListItem>
                       {" "}
-                      {patient.createdAt
+                      {!loading && patient.createdAt
                         ? format(
                             new Date(patient.createdAt),
                             "dd/MM/yyyy hh:mm bbb"
                           )
                         : ""}
+                      {loading && <Skeleton height="20px" />}
                     </ListItem>
                     <ListItem>
-                      {patient.updatedAt
+                      {!loading && patient.updatedAt
                         ? format(
                             new Date(patient.updatedAt),
                             "dd/MM/yyyy hh:mm bbb"
                           )
                         : ""}
+                      {loading && <Skeleton height="20px" />}
                     </ListItem>
                   </List>
                 </SimpleGrid>
@@ -175,10 +204,18 @@ function PatientDetails() {
                   </List>
                   <List spacing={2}>
                     <ListItem>
-                      {patient.emergencyFirstName} {patient.emergencyLastName}
+                      {!loading && patient.emergencyFirstName}{" "}
+                      {!loading && patient.emergencyLastName}
+                      {loading && <Skeleton height="20px" />}
                     </ListItem>
-                    <ListItem>{patient.emergencyContact}</ListItem>
-                    <ListItem>{patient.emergencyRelationship}</ListItem>
+                    <ListItem>
+                      {!loading && patient.emergencyContact}{" "}
+                      {loading && <Skeleton height="20px" />}
+                    </ListItem>
+                    <ListItem>
+                      {!loading && patient.emergencyRelationship}{" "}
+                      {loading && <Skeleton height="20px" />}
+                    </ListItem>
                   </List>
                 </SimpleGrid>
               </Box>
@@ -199,8 +236,14 @@ function PatientDetails() {
                     <ListItem>Allergic Details</ListItem>{" "}
                   </List>
                   <List spacing={2}>
-                    <ListItem>{patient.medicalDetails}</ListItem>
-                    <ListItem>{patient.allergicDetails}</ListItem>
+                    <ListItem>
+                      {!loading && patient.medicalDetails}{" "}
+                      {loading && <Skeleton height="20px" />}
+                    </ListItem>
+                    <ListItem>
+                      {!loading && patient.allergicDetails}{" "}
+                      {loading && <Skeleton height="20px" />}
+                    </ListItem>
                   </List>
                 </SimpleGrid>
               </Box>

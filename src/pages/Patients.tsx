@@ -1,27 +1,32 @@
 import { Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useSelector, useDispatch } from "react-redux";
+import AddPatientButton from "../components/AddPatientButton";
 import PatientTable from "../components/PatientTable";
 import SideBar from "../components/SideBar";
 import ApiService from "../services/ApiService";
+import { addPatients, selectPatients } from "../store/patient.slice";
 
 function Patients() {
-  const [patients, setPatients] = useState([]);
+  const dispatch = useDispatch();
+  const { patients } = useSelector(selectPatients);
   useEffect(() => {
     ApiService.get(`/patient`)
       .then((response) => {
-        console.log(response.data);
-        setPatients(response.data);
+        dispatch(addPatients(response.data));
       })
       .catch((err) => {
         console.log(err);
-        //   if (err && err.response) {
-        //     console.log(err)
-        //   }
       });
   }, []);
 
   return (
     <SideBar active="/patient">
+      <Helmet>
+        <title>Patients</title>
+      </Helmet>
+      <AddPatientButton p={patients} />
       <PatientTable patients={patients}></PatientTable>
     </SideBar>
   );
