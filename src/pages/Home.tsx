@@ -17,9 +17,9 @@ function Home() {
       <Helmet>
         <title>Dashboard</title>
       </Helmet>
-      <div>
+      {/* <div>
         <Text fontSize="6xl">Welcome, {user ? user.name : "User"}</Text>
-      </div>
+      </div> */}
       <DataBox></DataBox><br/>
       <HStack>
         <DashboardCard></DashboardCard>
