@@ -80,7 +80,7 @@ function AddPatientButton({ p }: { p: Array<Patient> }) {
       headers: { "content-type": "multipart/form-data" },
     };
     setLoading(true);
-    ApiService.post("http://localhost:3001/patient/registration", form, config)
+    ApiService.post("http://52.221.208.230:3001/patient/registration", form, config)
       .then((response) => {
         const newP = {
           address: response.data.address,
