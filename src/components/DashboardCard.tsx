@@ -10,6 +10,7 @@ import {
     TableCaption,
     TableContainer,
   } from '@chakra-ui/react'
+import PatientGraph from './PatientGraph';
 
 
 function DashboardCard() {
@@ -23,7 +24,7 @@ function DashboardCard() {
     return (
         <>
             <Box maxW='m' borderWidth='1px' borderRadius='lg' overflow='hidden'>
-                <Box p='6'>
+                <Box p='50'>
                 <Box display='flex' alignItems='baseline'></Box>
                 <Box
                     mt='1'
@@ -34,7 +35,8 @@ function DashboardCard() {
                     {property.appointmentTitle}
                 </Box>
                 </Box>
-                <Image src={property.imageUrl} alt={property.imageAlt} /> 
+                {/* <Image src={property.imageUrl} alt={property.imageAlt} />  */}
+                <PatientGraph></PatientGraph>
             </Box>
 
             <Box maxW='m' borderWidth='1px' borderRadius='lg' overflow='hidden'>
@@ -60,44 +62,44 @@ function DashboardCard() {
                     </Thead>
                     <Tbody>
                     <Tr>
-                        <Td>inches</Td>
-                        <Td>millimetres (mm)</Td>
-                        <Td isNumeric>25.4</Td>
+                        <Td>Nabhaan Ali</Td>
+                        <Td>M</Td>
+                        <Td>0123456789</Td>
                     </Tr>
                     <Tr>
-                        <Td>feet</Td>
-                        <Td>centimetres (cm)</Td>
-                        <Td isNumeric>30.48</Td>
+                        <Td>Nabhaan Ali</Td>
+                        <Td>M</Td>
+                        <Td>0123456789</Td>
                     </Tr>
                     <Tr>
-                        <Td>yards</Td>
-                        <Td>metres (m)</Td>
-                        <Td isNumeric>0.91444</Td>
+                        <Td>Nabhaan Ali</Td>
+                        <Td>M</Td>
+                        <Td>0123456789</Td>
                     </Tr>
                     <Tr>
-                        <Td>yards</Td>
-                        <Td>metres (m)</Td>
-                        <Td isNumeric>0.91444</Td>
+                        <Td>Nabhaan Ali</Td>
+                        <Td>M</Td>
+                        <Td>0123456789</Td>
                     </Tr>
                     <Tr>
-                        <Td>yards</Td>
-                        <Td>metres (m)</Td>
-                        <Td isNumeric>0.91444</Td>
+                        <Td>Nabhaan Ali</Td>
+                        <Td>M</Td>
+                        <Td>0123456789</Td>
                     </Tr>
                     <Tr>
-                        <Td>yards</Td>
-                        <Td>metres (m)</Td>
-                        <Td isNumeric>0.91444</Td>
+                        <Td>Nabhaan Ali</Td>
+                        <Td>M</Td>
+                        <Td>0123456789</Td>
                     </Tr>
                     <Tr>
-                        <Td>yards</Td>
-                        <Td>metres (m)</Td>
-                        <Td isNumeric>0.91444</Td>
+                        <Td>Nabhaan Ali</Td>
+                        <Td>M</Td>
+                        <Td>0123456789</Td>
                     </Tr>
                     <Tr>
-                        <Td>yards</Td>
-                        <Td>metres (m)</Td>
-                        <Td isNumeric>0.91444</Td>
+                        <Td>Nabhaan Ali</Td>
+                        <Td>M</Td>
+                        <Td>0123456789</Td> 
                     </Tr>
                     </Tbody>
                     <Tfoot>
