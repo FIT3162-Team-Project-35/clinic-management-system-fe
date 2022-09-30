@@ -1,13 +1,15 @@
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import events from "../common/events";
-import { Children, cloneElement, useState } from "react";
+// import events from "../common/events";
+import { Children, cloneElement, useEffect, useState } from "react";
 import {
   Button,
+  Center,
   FormControl,
   FormLabel,
   Input,
+  Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
@@ -19,6 +21,13 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
+import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker/dist/entry.nostyle";
+import "react-calendar/dist/Calendar.css";
+import "react-clock/dist/Clock.css";
+import "@wojtekmaj/react-datetimerange-picker/dist/DateTimeRangePicker.css";
+import ApiService from "../services/ApiService";
+// import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.
 
@@ -31,7 +40,13 @@ const localizer = momentLocalizer(moment); // or globalizeLocalizer
 
 export function MyCalendar(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [currEvent, setCurrEvent] = useState({} as Event);
+  const [eventTitle, setEventTitle] = useState("");
+  const [events, setEvents] = useState([]);
+  const [eventId, setEventId] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [isEventExist, setIsEventExist] = useState(false);
+  const [startEndDate, setStartEndDate] = useState([new Date(), new Date()]);
+  const toast = useToast();
   const formats = {
     dayFormat: (date: any, culture: any, loca: any) =>
       loca.format(date, "dddd D"),
@@ -40,6 +55,22 @@ export function MyCalendar(props: any) {
     agendaDateFormat: (date: any, culture: any, loca: any) =>
       loca.format(date, "dddd D MMMM YYYY"),
   };
+
+  useEffect(() => {
+    ApiService.get(`/appointment/`)
+      .then((response) => {
+        // setLoading(false);
+        setEvents(response.data);
+        setLoading(false);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        //   if (err && err.response) {
+        //     console.log(err)
+        //   }
+      });
+  }, []);
 
   const TouchCellWrapper = ({
     children,
@@ -58,10 +89,15 @@ export function MyCalendar(props: any) {
     });
 
   const onSelectEvent = (event: any) => {
-    // alert(event.title);
     console.log(event);
-    setCurrEvent(event);
+
+    setIsEventExist(true);
+    setEventId(event.id);
+    setEventTitle(event.title);
+    setStartEndDate([event.start, event.end]);
     onOpen();
+
+    console.log(isEventExist, eventId, eventTitle, event.start, event.end);
   };
 
   const onSelectSlot = ({
@@ -71,61 +107,176 @@ export function MyCalendar(props: any) {
     action: any;
     slots: any;
   }) => {
+    setIsEventExist(false);
     console.log("onSelectSlot");
     if (action === "click") {
       console.log(slots);
-      setCurrEvent({} as Event);
+      setEventTitle("");
+      setStartEndDate([new Date(), new Date()]);
       onOpen();
     }
     return false;
+  };
+
+  const onCalendarEventDoubleClick = (event: any) => {
+    console.log(123);
+  };
+
+  const handleDelete = () => {
+    if (isEventExist) {
+      setLoading(true);
+      ApiService.delete(`http://localhost:3001/appointment/${eventId}`)
+        .then((response) => {
+          onClose();
+          console.log("Deleted successfully");
+          events.forEach(function (e, i) {
+            if (e.id === eventId) {
+              events.splice(i, 1);
+            }
+          });
+          setLoading(false);
+          toast({
+            title: "Deleted successfully",
+            description: "The selected event is deleted.",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const handleSubmit = () => {
+    const event: Event = {
+      title: eventTitle,
+      start: startEndDate[0],
+      end: startEndDate[1],
+    };
+
+    if (isEventExist) {
+      setLoading(true);
+      ApiService.put(
+        `http://localhost:3001/appointment/update/${eventId}`,
+        event
+      )
+        .then((response) => {
+          onClose();
+          console.log("Updated successfully");
+          events.forEach(function (e, i) {
+            if (e.id === eventId) {
+              events.splice(i, 1);
+              events.push({ ...event, id: eventId });
+              toast({
+                title: "Updated successfully",
+                description: "The selected event is updated.",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+              });
+            }
+          });
+          setLoading(false);
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    } else {
+      onClose();
+      ApiService.post("http://localhost:3001/appointment/create", event)
+        .then((response) => {
+          console.log(response.data);
+          setIsEventExist(true);
+          setEventId(response.data.id);
+          setEvents([...events, response.data]);
+          // console.log(event.start.toISOString());
+          // console.log(event.end.toISOString());
+          toast({
+            title: "Created successfully",
+            description: "A new event is created.",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
   };
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            {currEvent.title ? currEvent.title : "Add New Event"}
-          </ModalHeader>
+          <ModalHeader>{eventTitle ? eventTitle : "Add New Event"}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel>First name</FormLabel>
-              <Input placeholder="First name" />
+              <FormLabel>Event Title</FormLabel>
+              <Input
+                placeholder="Event Title"
+                defaultValue={eventTitle ? eventTitle : ""}
+                onChange={(e) => setEventTitle(e.target.value)}
+                // setCurrEvent({...currEvent, title: })
+              />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Last name</FormLabel>
-              <Input placeholder="Last name" />
+              <FormLabel>Start - End (Date Time)</FormLabel>
+              <DateTimeRangePicker
+                onChange={setStartEndDate}
+                value={startEndDate}
+              />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
               Save
+            </Button>
+            <Button colorScheme="red" mr={3} onClick={handleDelete}>
+              Delete
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Calendar
-        components={{
-          dateCellWrapper: (props) => (
-            <TouchCellWrapper
-              value={undefined}
-              {...props}
-              onSelectSlot={onSelectSlot}
-            />
-          ),
-        }}
-        events={events}
-        formats={formats}
-        localizer={localizer}
-        selectable
-        onSelectEvent={onSelectEvent}
-        onSelectSlot={onSelectSlot}
-        style={{ minHeight: 800 }}
-      />
+      {!loading && (
+        <Calendar
+          components={{
+            dateCellWrapper: (props) => (
+              <TouchCellWrapper
+                value={undefined}
+                {...props}
+                onSelectSlot={onSelectSlot}
+              />
+            ),
+          }}
+          events={events}
+          formats={formats}
+          localizer={localizer}
+          selectable
+          onSelectEvent={onSelectEvent}
+          onSelectSlot={onSelectSlot}
+          onDoubleClickEvent={onCalendarEventDoubleClick}
+          style={{ minHeight: 800 }}
+        />
+      )}
+
+      {loading && (
+        <Center>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        </Center>
+      )}
     </>
   );
 }

@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const ApiService = axios.create({
-  baseURL: "http://18.143.178.31:3001/",
-  // baseURL: "http://localhost:3001/",
+  // baseURL: "http://52.221.208.230:3001/",
+  baseURL: "http://localhost:3001/",
   timeout: 30000,
 });
 
