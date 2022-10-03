@@ -9,6 +9,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select,
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -27,12 +28,16 @@ import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "@wojtekmaj/react-datetimerange-picker/dist/DateTimeRangePicker.css";
 import ApiService from "../services/ApiService";
+import { useSelector } from "react-redux";
+import { selectPatients } from "../store/patient.slice";
+
 // import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.
 
 type Event = {
   title: string;
+  patientId: string;
   start: Date;
   end: Date;
 };
@@ -46,6 +51,8 @@ export function MyCalendar(props: any) {
   const [loading, setLoading] = useState(true);
   const [isEventExist, setIsEventExist] = useState(false);
   const [startEndDate, setStartEndDate] = useState([new Date(), new Date()]);
+  const [patients, setPatients] = useState([]);
+  const [patientId, setPatientId] = useState("");
   const toast = useToast();
   const formats = {
     dayFormat: (date: any, culture: any, loca: any) =>
@@ -70,6 +77,15 @@ export function MyCalendar(props: any) {
         //     console.log(err)
         //   }
       });
+
+    ApiService.get(`/patient`)
+      .then((response) => {
+        setPatients(response.data);
+        setPatientId(response.data[0].id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const TouchCellWrapper = ({
@@ -93,6 +109,7 @@ export function MyCalendar(props: any) {
 
     setIsEventExist(true);
     setEventId(event.id);
+    setPatientId(event.patient.id);
     setEventTitle(event.title);
     setStartEndDate([event.start, event.end]);
     onOpen();
@@ -108,9 +125,7 @@ export function MyCalendar(props: any) {
     slots: any;
   }) => {
     setIsEventExist(false);
-    console.log("onSelectSlot");
     if (action === "click") {
-      console.log(slots);
       setEventTitle("");
       setStartEndDate([new Date(), new Date()]);
       onOpen();
@@ -150,8 +165,10 @@ export function MyCalendar(props: any) {
   };
 
   const handleSubmit = () => {
+    console.log(patientId);
     const event: Event = {
       title: eventTitle,
+      patientId: patientId,
       start: startEndDate[0],
       end: startEndDate[1],
     };
@@ -168,7 +185,11 @@ export function MyCalendar(props: any) {
           events.forEach(function (e, i) {
             if (e.id === eventId) {
               events.splice(i, 1);
-              events.push({ ...event, id: eventId });
+              events.push({
+                ...event,
+                id: eventId,
+                patient: { id: patientId },
+              });
               toast({
                 title: "Updated successfully",
                 description: "The selected event is updated.",
@@ -222,6 +243,22 @@ export function MyCalendar(props: any) {
                 onChange={(e) => setEventTitle(e.target.value)}
                 // setCurrEvent({...currEvent, title: })
               />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Patient</FormLabel>
+              <Select
+                value={patientId}
+                onChange={(e) => setPatientId(e.target.value)}
+              >
+                {patients.map((p: any) => {
+                  return (
+                    <option
+                      value={p.id}
+                    >{`${p.firstName} ${p.lastName}`}</option>
+                  );
+                })}
+              </Select>
             </FormControl>
 
             <FormControl mt={4}>
