@@ -8,6 +8,7 @@ import {
   Center,
   Container,
   Heading,
+  Link,
   List,
   ListItem,
   SimpleGrid,
@@ -15,17 +16,19 @@ import {
   Stack,
   StackDivider,
   Text,
+  UnorderedList,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import ApiService from "../services/ApiService";
 import { format } from "date-fns";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { changeDatetoTZ } from "../common/utils";
 import { Helmet } from "react-helmet";
+import { Encounter } from "../components/EncounterTable";
 
 function PatientDetails() {
   const { id } = useParams();
@@ -46,9 +49,16 @@ function PatientDetails() {
     id: "",
     lastName: "",
     medicalDetails: "",
+    encounters: [],
     postcode: "",
     updatedAt: "",
   });
+
+  const navigate = useNavigate();
+
+  const handleEncounterClick = (id: string) => {
+    navigate(`/encounter/${id}`);
+  };
 
   useEffect(() => {
     ApiService.get(`/patient/${id}`)
@@ -245,6 +255,45 @@ function PatientDetails() {
                       {loading && <Skeleton height="20px" />}
                     </ListItem>
                   </List>
+                </SimpleGrid>
+              </Box>
+
+              <Box>
+                <Text
+                  fontSize={{ base: "16px", lg: "18px" }}
+                  color={useColorModeValue("blue.500", "blue.300")}
+                  fontWeight={"500"}
+                  textTransform={"uppercase"}
+                  mb={"4"}
+                >
+                  Encounter History
+                </Text>
+
+                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+                  <UnorderedList>
+                    {loading && <Skeleton height="20px" />}
+                    {patient.encounters.map((encounter: Encounter) => {
+                      return (
+                        <ListItem>
+                          {" "}
+                          {!loading && encounter.serviceDate ? (
+                            <Link
+                              color="blue.500"
+                              onClick={() => handleEncounterClick(encounter.id)}
+                            >
+                              {format(
+                                new Date(encounter.serviceDate),
+                                "dd/MM/yyyy hh:mm bbb"
+                              )}
+                            </Link>
+                          ) : (
+                            ""
+                          )}
+                          {loading && <Skeleton height="20px" />}
+                        </ListItem>
+                      );
+                    })}
+                  </UnorderedList>
                 </SimpleGrid>
               </Box>
             </Stack>
