@@ -28,8 +28,6 @@ import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "@wojtekmaj/react-datetimerange-picker/dist/DateTimeRangePicker.css";
 import ApiService from "../services/ApiService";
-import { useSelector } from "react-redux";
-import { selectPatients } from "../store/patient.slice";
 
 // import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object

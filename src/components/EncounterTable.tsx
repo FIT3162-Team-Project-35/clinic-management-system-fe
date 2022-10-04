@@ -45,6 +45,7 @@ import { format } from "date-fns";
 import Card from "./Card";
 import { NavLink as RouterLink, useNavigate } from "react-router-dom";
 import { changeDatetoTZ } from "../common/utils";
+import { Patient } from "./PatientTable";
 
 interface Data {
   status: boolean;
@@ -52,22 +53,13 @@ interface Data {
   id: string;
 }
 
-export interface Patient {
-  id: string;
-  firstName: string;
-  lastName: string;
-  contactNumber: string;
-  gender: string;
-  address: string;
-  city: string;
-  postcode: number;
-  dob: string;
-  emergencyFirstName: string;
-  emergencyLastName: string;
-  emergencyContact: string;
-  emergencyRelationship: string;
-  medicalDetails: string;
-  allergicDetails: string;
+export interface Encounter {
+  diagnosis: string;
+  additionalNotes: string;
+  serviceDate: string;
+  nextAppointment: string;
+  doctor: string;
+  patient: Patient;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -102,6 +94,11 @@ const TableLoading = ({ columnsToLoad = 1, rowsToLoad = 1 }: any) => {
     <>
       {rows.map((_, index) => (
         <Tr key={index}>
+          <Td>
+            {" "}
+            <Skeleton h="25px" rounded="lg" />
+          </Td>
+
           {columns.map((_, index) => (
             <Td key={index}>
               <Skeleton h="25px" rounded="lg" />
@@ -113,9 +110,9 @@ const TableLoading = ({ columnsToLoad = 1, rowsToLoad = 1 }: any) => {
   );
 };
 
-export default function PatientTable({ patients }: { patients: any }) {
-  const defaultData: Patient[] = patients;
-  const columns: ColumnDef<Patient>[] = [
+export default function EncounterTable({ encounters }: { encounters: any }) {
+  const defaultData: Encounter[] = encounters;
+  const columns: ColumnDef<Encounter>[] = [
     // {
     //   id: "select",
     //   header: ({ table }) => (
@@ -144,7 +141,22 @@ export default function PatientTable({ patients }: { patients: any }) {
       footer: (info) => info.column.id,
       cell: (info) => info.getValue(),
       id: "fullName",
-      accessorFn: (row) => `${row.firstName} ${row.lastName}`,
+      accessorFn: (row) => `${row.patient.firstName} ${row.patient.lastName}`,
+    },
+    {
+      header: () => <span>Service Date</span>,
+      footer: (info) => info.column.id,
+      cell: (info) => info.getValue(),
+      id: "serviceDate",
+      accessorFn: (row) =>
+        `${format(new Date(row.serviceDate), "dd/MM/yyyy hh:mm bbb")}`,
+    },
+    {
+      header: () => <span>Diagnosed by</span>,
+      footer: (info) => info.column.id,
+      cell: (info) => info.getValue(),
+      id: "doctor",
+      accessorFn: (row) => `${row.doctor}`,
     },
     {
       header: () => <span>Created At</span>,
@@ -187,7 +199,8 @@ function Table({ data, columns }: { data: any; columns: ColumnDef<any>[] }) {
   }, 3000);
 
   const onRowClick = (index: number, data: Data[]) => {
-    navigate(`/patient/${data[index].id}`);
+    console.log(data[index]);
+    navigate(`/encounter/${data[index].id}`);
   };
 
   const table = useReactTable({
@@ -204,7 +217,7 @@ function Table({ data, columns }: { data: any; columns: ColumnDef<any>[] }) {
 
   return (
     <Box padding={"20px"}>
-      <Card title={"Patients Table"}>
+      <Card title={"Encounters Table"}>
         <ChakraTable colorScheme="blue" size="md">
           <Thead>
             {table.getHeaderGroups().map((headerGroup: any) => (
@@ -348,14 +361,14 @@ function Table({ data, columns }: { data: any; columns: ColumnDef<any>[] }) {
               </NumberInputStepper>
             </NumberInput>
             {/* <input
-              type="number"
-              defaultValue={table.getState().pagination.pageIndex + 1}
-              onChange={(e) => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                table.setPageIndex(page);
-              }}
-              className="border p-1 rounded w-16"
-            /> */}
+                type="number"
+                defaultValue={table.getState().pagination.pageIndex + 1}
+                onChange={(e) => {
+                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                  table.setPageIndex(page);
+                }}
+                className="border p-1 rounded w-16"
+              /> */}
           </span>
           <select
             value={table.getState().pagination.pageSize}

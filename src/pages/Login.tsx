@@ -52,6 +52,10 @@ function Login() {
         navigate("/");
       })
       .catch((err) => {
+        setLoading(false);
+        setMessage(
+          "Login unsuccessfully. It might due to incorrect account credentials or system error."
+        );
         console.log(err);
         if (err && err.response) {
           setMessage(err.response.data.message);
