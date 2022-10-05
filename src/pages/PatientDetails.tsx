@@ -5,14 +5,17 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Button,
+  ButtonGroup,
   Center,
   Container,
+  Flex,
   Heading,
   Link,
   List,
   ListItem,
   SimpleGrid,
   Skeleton,
+  Spacer,
   Stack,
   StackDivider,
   Text,
@@ -29,6 +32,7 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import { changeDatetoTZ } from "../common/utils";
 import { Helmet } from "react-helmet";
 import { Encounter } from "../components/EncounterTable";
+import DeleteButton from "../components/DeleteButton";
 
 function PatientDetails() {
   const { id } = useParams();
@@ -95,6 +99,13 @@ function PatientDetails() {
             <BreadcrumbLink href="#">Patient Details</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
+
+        <Flex minWidth="max-content" alignItems="center" gap="2">
+          <Spacer />
+          <ButtonGroup gap="2">
+            <DeleteButton type={"patient"} id={id} />
+          </ButtonGroup>
+        </Flex>
         <Center>
           <VStack>
             <Avatar size="2xl" src="#"></Avatar>

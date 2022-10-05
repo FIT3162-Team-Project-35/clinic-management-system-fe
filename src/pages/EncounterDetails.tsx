@@ -5,14 +5,17 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Button,
+  ButtonGroup,
   Center,
   Container,
+  Flex,
   Heading,
   Link,
   List,
   ListItem,
   SimpleGrid,
   Skeleton,
+  Spacer,
   Stack,
   StackDivider,
   Text,
@@ -28,6 +31,7 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import { changeDatetoTZ } from "../common/utils";
 import { Helmet } from "react-helmet";
 import { Patient } from "../components/PatientTable";
+import DeleteButton from "../components/DeleteButton";
 
 function EncounterDetails() {
   const { id } = useParams();
@@ -83,6 +87,13 @@ function EncounterDetails() {
             <BreadcrumbLink href="#">Encounter Details</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
+        <Flex minWidth="max-content" alignItems="center" gap="2">
+          <Spacer />
+          <ButtonGroup gap="2">
+            <DeleteButton type={"encounter"} id={id} />
+          </ButtonGroup>
+        </Flex>
+
         <SimpleGrid>
           <Stack spacing={{ base: 6, md: 10 }}>
             <Stack

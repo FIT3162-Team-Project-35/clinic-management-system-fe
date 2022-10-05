@@ -105,15 +105,11 @@ function AddEncounterButton({
         setDoctor(newEncounter.doctor);
 
         p.forEach((patient) => {
-          const fullName = `${patient.firstName} ${patient.lastName}`;
           if (
             patient.firstName === newEncounter.patient.firstName &&
             patient.lastName === newEncounter.patient.lastName
           ) {
             setPatientId(patient.id);
-          } else {
-            //Set the first patient id if not matched
-            setPatientId(p[0].id);
           }
         });
         // const newPatients = [...e, newEncounter];
@@ -147,7 +143,7 @@ function AddEncounterButton({
       additionalNotes: additionalNotes,
       serviceDate: new Date(serviceDate),
       nextAppointment: new Date(nextAppointmentDate),
-      patientId: patientId,
+      patientId: patientId ? patientId : p[0],
       doctor: doctor,
     };
 
