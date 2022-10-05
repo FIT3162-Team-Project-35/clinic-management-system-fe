@@ -270,30 +270,39 @@ function PatientDetails() {
                 </Text>
 
                 <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                  <UnorderedList>
-                    {loading && <Skeleton height="20px" />}
-                    {patient.encounters.map((encounter: Encounter) => {
-                      return (
-                        <ListItem>
-                          {" "}
-                          {!loading && encounter.serviceDate ? (
-                            <Link
-                              color="blue.500"
-                              onClick={() => handleEncounterClick(encounter.id)}
-                            >
-                              {format(
-                                new Date(encounter.serviceDate),
-                                "dd/MM/yyyy hh:mm bbb"
+                  {loading && <Skeleton height="20px" />}
+
+                  {patient.encounters.length > 0 ? (
+                    <UnorderedList>
+                      {patient.encounters
+                        .reverse()
+                        .map((encounter: Encounter) => {
+                          return (
+                            <ListItem>
+                              {" "}
+                              {!loading && encounter.serviceDate ? (
+                                <Link
+                                  color="blue.500"
+                                  onClick={() =>
+                                    handleEncounterClick(encounter.id)
+                                  }
+                                >
+                                  {format(
+                                    new Date(encounter.serviceDate),
+                                    "dd/MM/yyyy hh:mm bbb"
+                                  )}
+                                </Link>
+                              ) : (
+                                ""
                               )}
-                            </Link>
-                          ) : (
-                            ""
-                          )}
-                          {loading && <Skeleton height="20px" />}
-                        </ListItem>
-                      );
-                    })}
-                  </UnorderedList>
+                              {loading && <Skeleton height="20px" />}
+                            </ListItem>
+                          );
+                        })}
+                    </UnorderedList>
+                  ) : (
+                    "Empty"
+                  )}
                 </SimpleGrid>
               </Box>
             </Stack>

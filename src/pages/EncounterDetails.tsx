@@ -134,10 +134,7 @@ function EncounterDetails() {
                     <ListItem>
                       {" "}
                       {!loading && encounter.serviceDate
-                        ? format(
-                            new Date(encounter.serviceDate),
-                            "dd/MM/yyyy hh:mm bbb"
-                          )
+                        ? format(new Date(encounter.serviceDate), "dd/MM/yyyy")
                         : ""}
                       {loading && <Skeleton height="20px" />}
                     </ListItem>
@@ -147,7 +144,7 @@ function EncounterDetails() {
                       {!loading && encounter.nextAppointment
                         ? format(
                             new Date(encounter.nextAppointment),
-                            "dd/MM/yyyy hh:mm bbb"
+                            "dd/MM/yyyy"
                           )
                         : ""}
                       {loading && <Skeleton height="20px" />}
