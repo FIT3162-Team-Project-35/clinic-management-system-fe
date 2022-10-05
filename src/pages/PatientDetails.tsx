@@ -33,6 +33,7 @@ import { changeDatetoTZ } from "../common/utils";
 import { Helmet } from "react-helmet";
 import { Encounter } from "../components/EncounterTable";
 import DeleteButton from "../components/DeleteButton";
+import EditPatientButton from "../components/EditPatientButton";
 
 function PatientDetails() {
   const { id } = useParams();
@@ -76,12 +77,13 @@ function PatientDetails() {
         //     console.log(err)
         //   }
       });
-  }, []);
+  }, [patient]);
   return (
     <SideBar active="/patient">
       <Helmet>
         <title>Patient Details</title>
       </Helmet>
+      <EditPatientButton patient={patient}></EditPatientButton>
       <Container maxW={"7xl"}>
         <Breadcrumb
           spacing="8px"
