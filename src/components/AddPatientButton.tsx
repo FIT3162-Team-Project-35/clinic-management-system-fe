@@ -2,8 +2,6 @@ import {
   Button,
   Center,
   FormControl,
-  FormLabel,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -16,38 +14,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-// import "react-dropzone-uploader/dist/styles.css";
-// import Dropzone from "react-dropzone-uploader";
 import ApiService from "../services/ApiService";
 import { Patient } from "./PatientTable";
 import { useDispatch } from "react-redux";
 import { addPatients } from "../store/patient.slice";
-
-function Layout({
-  input,
-  previews,
-  submitButton,
-  dropzoneProps,
-  files,
-  extra: { maxFiles },
-}: {
-  input: any;
-  previews: any;
-  submitButton: any;
-  dropzoneProps: any;
-  files: any;
-  extra: { maxFiles: any };
-}) {
-  return (
-    <div>
-      {previews}
-
-      <div {...dropzoneProps}>{files.length < maxFiles && input}</div>
-
-      {files.length > 0 && submitButton}
-    </div>
-  );
-}
+import Dropzone from "react-dropzone";
+import "../App.css";
 
 function AddPatientButton({ p }: { p: Array<Patient> }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -57,25 +29,15 @@ function AddPatientButton({ p }: { p: Array<Patient> }) {
   const finalRef = React.useRef(null);
   const dispatch = useDispatch();
 
-  //   specify upload params and url for your files
-  const getUploadParams = ({ meta }: { meta: any }) => {
-    return { url: "https://httpbin.org/post" };
+  const [files, setFiles] = useState([]);
+  const handleDrop = (acceptedFiles) => {
+    setFiles(acceptedFiles);
   };
 
-  // called every time a file's `status` changes
-  // const handleChangeStatus = (
-  //   { meta, file }: { meta: any; file: any },
-  //   status: any
-  // ) => {
-  //   console.log(status, meta, file);
-  // };
-
   // receives array of files that are done uploading when submit button is clicked
-  const handleSubmit = (files: any, allFiles: any) => {
-    //console.log(files.map((f: any) => console.log(f)));
+  const handleSubmit = (files: any) => {
     const form = new FormData();
-    console.log(files[0]);
-    form.append("file", files[0].file);
+    form.append("file", files[0]);
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
@@ -128,7 +90,7 @@ function AddPatientButton({ p }: { p: Array<Patient> }) {
         });
         console.log(err);
       });
-    allFiles.forEach((f: any) => f.remove());
+    setFiles([]);
   };
   return (
     <>
@@ -155,15 +117,29 @@ function AddPatientButton({ p }: { p: Array<Patient> }) {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              {/* <Input ref={initialRef} placeholder="First name" /> */}
-              {/* {!loading && (
-                <Dropzone
-                  LayoutComponent={Layout}
-                  getUploadParams={getUploadParams}
-                  onSubmit={handleSubmit}
-                  accept="image/*,audio/*,video/*"
-                />
-              )} */}
+              {!loading && (
+                <>
+                  <Dropzone
+                    accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
+                    onDrop={handleDrop}
+                  >
+                    {({ getRootProps, getInputProps }) => (
+                      <div {...getRootProps({ className: "dropzone" })}>
+                        <input {...getInputProps()} accept="image/*" />
+                        <p>Drag'n'drop files, or click to select files</p>
+                      </div>
+                    )}
+                  </Dropzone>
+                  <div>
+                    <strong>Files:</strong>
+                    <ul>
+                      {files.map((file) => (
+                        <li key={file.name}>{file.name}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              )}
 
               {loading && (
                 <Center>
@@ -179,12 +155,16 @@ function AddPatientButton({ p }: { p: Array<Patient> }) {
             </FormControl>
           </ModalBody>
 
-          {/* <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+          <ModalFooter>
+            <Button
+              onClick={() => handleSubmit(files)}
+              colorScheme="blue"
+              mr={3}
+            >
               Add
             </Button>
             <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter> */}
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

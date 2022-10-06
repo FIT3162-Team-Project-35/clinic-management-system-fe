@@ -1,6 +1,7 @@
 import {
   Button,
   Center,
+  Divider,
   FormControl,
   FormLabel,
   Input,
@@ -18,39 +19,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-// import "react-dropzone-uploader/dist/styles.css";
-// import Dropzone from "react-dropzone-uploader";
+import Dropzone from "react-dropzone";
 import ApiService from "../services/ApiService";
 import { Patient } from "./PatientTable";
 import { useDispatch } from "react-redux";
 import { Encounter } from "./EncounterTable";
 import { addEncounters } from "../store/encounter.slice";
-
-function Layout({
-  input,
-  previews,
-  submitButton,
-  dropzoneProps,
-  files,
-  extra: { maxFiles },
-}: {
-  input: any;
-  previews: any;
-  submitButton: any;
-  dropzoneProps: any;
-  files: any;
-  extra: { maxFiles: any };
-}) {
-  return (
-    <div>
-      {previews}
-
-      <div {...dropzoneProps}>{files.length < maxFiles && input}</div>
-
-      {files.length > 0 && submitButton}
-    </div>
-  );
-}
 
 function AddEncounterButton({
   e,
@@ -72,17 +46,15 @@ function AddEncounterButton({
   const [serviceDate, setServiceDate] = useState("");
   const [nextAppointmentDate, setAppointmentDate] = useState("");
   const [patientId, setPatientId] = useState("");
-
-  //   specify upload params and url for your files
-  const getUploadParams = ({ meta }: { meta: any }) => {
-    return { url: "https://httpbin.org/post" };
+  const [files, setFiles] = useState([]);
+  const handleDrop = (acceptedFiles) => {
+    setFiles(acceptedFiles);
   };
 
   // receives array of files that are done uploading when submit button is clicked
-  const handleFileSubmit = (files: any, allFiles: any) => {
+  const handleFileSubmit = (files: any) => {
     const form = new FormData();
-    console.log(files[0]);
-    form.append("file", files[0].file);
+    form.append("file", files[0]);
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
@@ -116,8 +88,7 @@ function AddEncounterButton({
             setPatientId(patient.id);
           }
         });
-        // const newPatients = [...e, newEncounter];
-        // dispatch(addPatients(newPatients));
+
         setLoading(false);
         toast({
           title: "Added Encounters",
@@ -138,7 +109,7 @@ function AddEncounterButton({
         });
         console.log(err);
       });
-    allFiles.forEach((f: any) => f.remove());
+    setFiles([]);
   };
 
   const handleFormSubmit = async () => {
@@ -218,13 +189,36 @@ function AddEncounterButton({
               {/* <Input ref={initialRef} placeholder="First name" /> */}
               {!loading && (
                 <>
-                  {/* <Dropzone
-                    LayoutComponent={Layout}
-                    getUploadParams={getUploadParams}
-                    onSubmit={handleFileSubmit}
-                    accept="image/*,audio/*,video/*"
-                  /> */}
+                  <Dropzone
+                    accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
+                    onDrop={handleDrop}
+                  >
+                    {({ getRootProps, getInputProps }) => (
+                      <div {...getRootProps({ className: "dropzone" })}>
+                        <input {...getInputProps()} accept="image/*" />
+                        <p>Drag'n'drop files, or click to select files</p>
+                      </div>
+                    )}
+                  </Dropzone>
+                  <div>
+                    <strong>Files:</strong>
+                    <ul>
+                      {files.map((file) => (
+                        <li key={file.name}>{file.name}</li>
+                      ))}
+                    </ul>
+                  </div>
                   <br />
+                  <Button
+                    colorScheme="blue"
+                    mr={3}
+                    onClick={() => handleFileSubmit(files)}
+                    size={"sm"}
+                  >
+                    Recognize
+                  </Button>{" "}
+                  <br />
+                  <Divider orientation="horizontal" mt={2} mb={2} />{" "}
                   <FormControl>
                     <FormLabel>Diagnosis: </FormLabel>
                     <Textarea
@@ -234,7 +228,6 @@ function AddEncounterButton({
                       size="sm"
                     />
                   </FormControl>
-
                   <FormControl>
                     <FormLabel>Additional Notes: </FormLabel>
                     <Textarea
@@ -244,7 +237,6 @@ function AddEncounterButton({
                       size="sm"
                     />
                   </FormControl>
-
                   <FormControl>
                     <FormLabel>Patient</FormLabel>
                     <Select
@@ -268,7 +260,6 @@ function AddEncounterButton({
                       onChange={(e) => setDoctor(e.target.value)}
                     />
                   </FormControl>
-
                   <FormControl>
                     <FormLabel>Service Date: </FormLabel>
                     <Input
@@ -277,7 +268,6 @@ function AddEncounterButton({
                       onChange={(e) => setServiceDate(e.target.value)}
                     />
                   </FormControl>
-
                   <FormControl>
                     <FormLabel>Next Appointment Date: </FormLabel>
                     <Input
@@ -318,4 +308,3 @@ function AddEncounterButton({
 }
 
 export default AddEncounterButton;
-0;
