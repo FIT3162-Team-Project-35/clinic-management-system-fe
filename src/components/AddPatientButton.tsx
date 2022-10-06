@@ -90,7 +90,6 @@ function AddPatientButton({ p }: { p: Array<Patient> }) {
         });
         console.log(err);
       });
-    setFiles([]);
   };
   return (
     <>
@@ -120,7 +119,7 @@ function AddPatientButton({ p }: { p: Array<Patient> }) {
               {!loading && (
                 <>
                   <Dropzone
-                    // accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
+                    accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
                     onDrop={handleDrop}
                   >
                     {({ getRootProps, getInputProps, open }) => (

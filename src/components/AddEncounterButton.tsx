@@ -109,7 +109,6 @@ function AddEncounterButton({
         });
         console.log(err);
       });
-    setFiles([]);
   };
 
   const handleFormSubmit = async () => {
@@ -190,7 +189,7 @@ function AddEncounterButton({
               {!loading && (
                 <>
                   <Dropzone
-                    // accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
+                    accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
                     onDrop={handleDrop}
                   >
                     {({ getRootProps, getInputProps, open }) => (
