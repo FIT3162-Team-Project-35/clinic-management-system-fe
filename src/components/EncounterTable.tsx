@@ -217,7 +217,9 @@ function Table({ data, columns }: { data: any; columns: ColumnDef<any>[] }) {
 
   return (
     <Box padding={"20px"}>
+      
       <Card title={"Encounters Table"}>
+        <Box overflowX="scroll">
         <ChakraTable colorScheme="blue" size="md">
           <Thead>
             {table.getHeaderGroups().map((headerGroup: any) => (
@@ -295,12 +297,15 @@ function Table({ data, columns }: { data: any; columns: ColumnDef<any>[] }) {
             )}
           </Tbody>
         </ChakraTable>
+        </Box>
       </Card>
       <br />
       <br />
 
       <div className="h-2" />
+      
       <Center className="flex items-center gap-2">
+      <Box overflowX="scroll">
         <HStack>
           <IconButton
             colorScheme="blue"
@@ -385,7 +390,9 @@ function Table({ data, columns }: { data: any; columns: ColumnDef<any>[] }) {
 
           {/* {JSON.stringify(patients)} */}
         </HStack>
+        </Box>
       </Center>
+      
     </Box>
   );
 }
