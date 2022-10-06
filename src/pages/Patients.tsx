@@ -24,11 +24,13 @@ function Patients() {
 
   return (
     <SideBar active="/patient">
+      {/* <Box w={{ base: "300px", md: "400px", lg: "500px" }}> */}
       <Helmet>
         <title>Patients</title>
       </Helmet>
       <AddPatientButton p={patients} />
       <PatientTable patients={patients}></PatientTable>
+      {/* //</Box> */}
     </SideBar>
   );
 }
