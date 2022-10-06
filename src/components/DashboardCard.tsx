@@ -1,120 +1,123 @@
-import { Badge, Box, Flex, Image } from '@chakra-ui/react';
+import { Badge, Box, Flex, Image, Skeleton } from "@chakra-ui/react";
 import {
-    Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    TableCaption,
-    TableContainer,
-  } from '@chakra-ui/react'
-import PatientGraph from './PatientGraph';
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from "@chakra-ui/react";
+import { format } from "date-fns";
+import { Patient } from "../store/patient.slice";
+import { PatientGraph } from "./PatientGraph";
 
+function DashboardCard({
+  patients,
+  appointments,
+  encounters,
+  graphData,
+}: {
+  patients: any;
+  appointments: any;
+  encounters: any;
+  graphData: any;
+}) {
+  const property = {
+    imageUrl: "https://www.excel-easy.com/smi/examples/line-chart.png",
+    imageAlt: "Today's patient appointment",
+    appointmentTitle: "Appointments of Last Three Days",
+    recentPatientTitle: "Recent Patients",
+  };
 
-function DashboardCard() {
-    const property = {
-      imageUrl: 'https://www.excel-easy.com/smi/examples/line-chart.png',
-      imageAlt: "Today's patient appointment",
-      appointmentTitle: 'Appoitment',
-      recentPatientTitle: 'Recent Patients',
-    }
-  
-    return (
-        <Flex direction={['column', 'column', 'row']}>
-            <Box maxW='m' borderWidth='1px' borderRadius='lg' overflow='hidden'>
-                <Box p={['10','35', '50']}>
-                <Box display='flex' alignItems='baseline'></Box>
-                <Box
-                    mt='1'
-                    fontWeight='semibold'
-                    as='h4'
-                    lineHeight='tight'
-                    noOfLines={1}>
-                    {property.appointmentTitle}
-                </Box>
-                </Box>
-                {/* <Image src={property.imageUrl} alt={property.imageAlt} />  */}
-                <PatientGraph></PatientGraph>
-            </Box>
+  const recentPatients = patients.slice(-10).reverse();
+  return (
+    <Flex direction={["column", "column", "row"]}>
+      <Box maxW="m" borderWidth="1px" borderRadius="lg" overflow="hidden">
+        <Box p={["10", "35", "50"]}>
+          <Box display="flex" alignItems="baseline"></Box>
+          <Box
+            mt="1"
+            fontWeight="semibold"
+            as="h4"
+            lineHeight="tight"
+            noOfLines={1}
+          >
+            {property.appointmentTitle}
+          </Box>
+        </Box>
+        {/* <Image src={property.imageUrl} alt={property.imageAlt} />  */}
+        <PatientGraph
+          appointments={appointments}
+          graphData={graphData}
+        ></PatientGraph>
+      </Box>
 
-            <Box maxW='m' borderWidth='1px' borderRadius='lg' overflow='hidden'>
-                <Box p='6'>
-                <Box display='flex' alignItems='baseline'></Box>
-                <Box
-                    mt='1'
-                    fontWeight='semibold'
-                    as='h4'
-                    lineHeight='tight'
-                    noOfLines={1}>
-                    {property.recentPatientTitle}
-                </Box>
-                </Box>
-                <TableContainer>
-                <Table size='sm'>
-                    <Thead>
+      <Box maxW="m" borderWidth="1px" borderRadius="lg" overflow="hidden">
+        <Box p="6">
+          <Box display="flex" alignItems="baseline"></Box>
+          <Box
+            mt="1"
+            fontWeight="semibold"
+            as="h4"
+            lineHeight="tight"
+            noOfLines={1}
+          >
+            {property.recentPatientTitle}
+          </Box>
+        </Box>
+        <TableContainer>
+          <Table size="sm">
+            <Thead>
+              <Tr>
+                <Th>Patient Name</Th>
+                <Th>Gender</Th>
+                <Th isNumeric>Contact Number</Th>
+                <Th>Created Date</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {recentPatients.length === 0 && (
+                <>
+                  <Tr>
+                    <Td>
+                      {" "}
+                      <Skeleton h="20px" rounded="lg" />
+                    </Td>
+                    <Td>
+                      {" "}
+                      <Skeleton h="20px" rounded="lg" />
+                    </Td>
+                    <Td>
+                      {" "}
+                      <Skeleton h="20px" rounded="lg" />
+                    </Td>
+                    <Td>
+                      {" "}
+                      <Skeleton h="20px" rounded="lg" />
+                    </Td>
+                  </Tr>
+                </>
+              )}
+              {recentPatients.length > 0 &&
+                recentPatients.map((p: Patient) => {
+                  return (
                     <Tr>
-                        <Th>Patient Name</Th>
-                        <Th>Gender</Th>
-                        <Th isNumeric>Contact Number</Th>
+                      <Td>{`${p.firstName} ${p.lastName}`}</Td>
+                      <Td>{p.gender}</Td>
+                      <Td>{p.contactNumber}</Td>
+                      <Td>{format(new Date(p.createdAt), "dd/MM/yyyy")}</Td>
                     </Tr>
-                    </Thead>
-                    <Tbody>
-                    <Tr>
-                        <Td>Nabhaan Ali</Td>
-                        <Td>M</Td>
-                        <Td>0123456789</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>Nabhaan Ali</Td>
-                        <Td>M</Td>
-                        <Td>0123456789</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>Nabhaan Ali</Td>
-                        <Td>M</Td>
-                        <Td>0123456789</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>Nabhaan Ali</Td>
-                        <Td>M</Td>
-                        <Td>0123456789</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>Nabhaan Ali</Td>
-                        <Td>M</Td>
-                        <Td>0123456789</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>Nabhaan Ali</Td>
-                        <Td>M</Td>
-                        <Td>0123456789</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>Nabhaan Ali</Td>
-                        <Td>M</Td>
-                        <Td>0123456789</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>Nabhaan Ali</Td>
-                        <Td>M</Td>
-                        <Td>0123456789</Td> 
-                    </Tr>
-                    </Tbody>
-                    <Tfoot>
-                    <Tr>
-                        <Th>Patient Name</Th>
-                        <Th>Gender</Th>
-                        <Th isNumeric>Contact Number</Th>
-                    </Tr>
-                    </Tfoot>
-                </Table>
-            </TableContainer>
-            </Box>
-        </Flex>
-    )
+                  );
+                })}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Box>
+    </Flex>
+  );
 }
-
 
 export default DashboardCard;

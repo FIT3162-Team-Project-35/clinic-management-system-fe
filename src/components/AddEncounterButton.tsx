@@ -190,12 +190,12 @@ function AddEncounterButton({
               {!loading && (
                 <>
                   <Dropzone
-                    accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
+                    // accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
                     onDrop={handleDrop}
                   >
                     {({ getRootProps, getInputProps, open }) => (
                       <div {...getRootProps({ className: "dropzone" })}>
-                        <input {...getInputProps()} accept="image/*" />
+                        <input {...getInputProps()} />
                         <p>Drag'n'drop files, or click to select files</p>
                         <button type="button" onClick={open}>
                           Press to Upload
