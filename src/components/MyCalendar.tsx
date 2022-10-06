@@ -1,7 +1,6 @@
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-// import events from "../common/events";
 import { Children, cloneElement, useEffect, useState } from "react";
 import {
   Button,
@@ -177,7 +176,7 @@ export function MyCalendar(props: any) {
     if (isEventExist) {
       setLoading(true);
       ApiService.put(
-        `http://localhost:3001/appointment/update/${eventId}`,
+        `https://clinic-management-be.herokuapp.com/appointment/update/${eventId}`,
         event
       )
         .then((response) => {
