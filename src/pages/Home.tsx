@@ -21,9 +21,9 @@ function Home() {
         <Text fontSize="6xl">Welcome, {user ? user.name : "User"}</Text>
       </div> */}
       <DataBox></DataBox><br/>
-      <HStack>
+      {/* <HStack> */}
         <DashboardCard></DashboardCard>
-      </HStack>
+      {/* </HStack> */}
     </SideBar>
   );
 }

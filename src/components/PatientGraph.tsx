@@ -15,7 +15,7 @@ const data = [
 ];
 
 export default () => (
-  <div className="patient">
+  <div className="container-responsive">
     <Chart data={data} width = {500} height={300}>
       <ArgumentAxis />
       <ValueAxis />

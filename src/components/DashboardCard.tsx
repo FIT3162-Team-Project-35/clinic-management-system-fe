@@ -1,4 +1,4 @@
-import { Badge, Box, Image } from '@chakra-ui/react';
+import { Badge, Box, Flex, Image } from '@chakra-ui/react';
 import {
     Table,
     Thead,
@@ -22,9 +22,9 @@ function DashboardCard() {
     }
   
     return (
-        <>
+        <Flex direction={['column', 'column', 'row']}>
             <Box maxW='m' borderWidth='1px' borderRadius='lg' overflow='hidden'>
-                <Box p='50'>
+                <Box p={['10','35', '50']}>
                 <Box display='flex' alignItems='baseline'></Box>
                 <Box
                     mt='1'
@@ -112,7 +112,7 @@ function DashboardCard() {
                 </Table>
             </TableContainer>
             </Box>
-        </>
+        </Flex>
     )
 }
 

@@ -11,13 +11,13 @@ function DataBox(){
     return(
         <HStack>
             <Box border="1px" borderRadius="md" >
-                 <HStack margin="2">
+                 <HStack margin={["0.5", "1", "2"]}>
                     <div> 
                         <Box 
                             color='black'
                             fontWeight='bold'
                             letterSpacing='wide'
-                            fontSize='3xl'
+                            fontSize={['1xl', '2xl','3xl']}
                             textTransform='uppercase'
                             ml='2'
                         >
@@ -27,29 +27,29 @@ function DataBox(){
                             color='gray.500'
                             fontWeight='semibold'
                             letterSpacing='wide'
-                            fontSize='1.7xl'
+                            fontSize={['x-small', 'mg', '1.7xl']}
                             textTransform='uppercase'
                             ml='2'
                         >
                             Patients
                         </Box>
                         </div>
-                    <Box padding="4" borderRadius="md">
+                    <Box padding={["0", "2", "4"]} borderRadius="md">
                         <Image 
                         src="https://cdn-icons-png.flaticon.com/512/946/946390.png"
-                        boxSize='50px' 
+                        boxSize={['0', '30px', '50px']} 
                     />
                     </Box>
                 </HStack>
             </Box>
             <Box border="1px" borderRadius="md">
-                 <HStack margin="2">
+                <HStack margin={["0.5", "1", "2"]}>
                     <div> 
                         <Box 
                             color='black'
                             fontWeight='bold'
                             letterSpacing='wide'
-                            fontSize='3xl'
+                            fontSize={['1xl', '2xl','3xl']}
                             textTransform='uppercase'
                             ml='2'
                         >
@@ -59,29 +59,29 @@ function DataBox(){
                             color='gray.500'
                             fontWeight='semibold'
                             letterSpacing='wide'
-                            fontSize='1.7xl'
+                            fontSize={['x-small', 'mg', '1.7xl']}
                             textTransform='uppercase'
                             ml='2'
                         >
                             Encounters
                         </Box>
                         </div>
-                    <Box padding="4" borderRadius="md">
+                    <Box padding={["0", "2", "4"]} borderRadius="md">
                         <Image 
                         src="https://cdn-icons-png.flaticon.com/512/2927/2927067.png"
-                        boxSize='50px' 
+                        boxSize={['0', '30px', '50px']} 
                     />
                     </Box>
                 </HStack>
             </Box>
-            <Box border="1px" borderRadius="md">
-                 <HStack margin="2">
+            <Box border="1px" borderRadius="md" padding="-10">
+                 <HStack margin={["0.5", "1", "2"]}>
                     <div> 
                         <Box 
                             color='black'
                             fontWeight='bold'
                             letterSpacing='wide'
-                            fontSize='3xl'
+                            fontSize={['1xl', '2xl','3xl']}
                             textTransform='uppercase'
                             ml='2'
                         >
@@ -91,17 +91,17 @@ function DataBox(){
                             color='gray.500'
                             fontWeight='semibold'
                             letterSpacing='wide'
-                            fontSize='1.7xl'
+                            fontSize={['x-small', 'mg', '1.7xl']}
                             textTransform='uppercase'
                             ml='2'
                         >
                             Appointments
                         </Box>
                         </div>
-                    <Box padding="4" borderRadius="md">
+                    <Box padding={["0", "2", "4"]} borderRadius="md">
                         <Image 
                         src="https://cdn-icons-png.flaticon.com/512/1572/1572132.png"
-                        boxSize='50px' 
+                        boxSize={['0', '30px', '50px']}  
                     />
                     </Box>
                 </HStack>
