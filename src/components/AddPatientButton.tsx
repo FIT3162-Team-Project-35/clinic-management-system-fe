@@ -123,10 +123,13 @@ function AddPatientButton({ p }: { p: Array<Patient> }) {
                     accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
                     onDrop={handleDrop}
                   >
-                    {({ getRootProps, getInputProps }) => (
+                    {({ getRootProps, getInputProps, open }) => (
                       <div {...getRootProps({ className: "dropzone" })}>
                         <input {...getInputProps()} accept="image/*" />
                         <p>Drag'n'drop files, or click to select files</p>
+                        <button type="button" onClick={open}>
+                          Press to Upload
+                        </button>
                       </div>
                     )}
                   </Dropzone>
