@@ -52,6 +52,7 @@ export function MyCalendar(props: any) {
   const [patients, setPatients] = useState([]);
   const [patientId, setPatientId] = useState("");
   const toast = useToast();
+
   const formats = {
     dayFormat: (date: any, culture: any, loca: any) =>
       loca.format(date, "dddd D"),
@@ -142,7 +143,7 @@ export function MyCalendar(props: any) {
         .then((response) => {
           onClose();
           console.log("Deleted successfully");
-          events.forEach(function (e, i) {
+          events.forEach(function (e: any, i) {
             if (e.id === eventId) {
               events.splice(i, 1);
             }
@@ -180,14 +181,14 @@ export function MyCalendar(props: any) {
         .then((response) => {
           onClose();
           console.log("Updated successfully");
-          events.forEach(function (e, i) {
+          events.forEach(function (e: any, i) {
             if (e.id === eventId) {
               events.splice(i, 1);
               events.push({
                 ...event,
                 id: eventId,
                 patient: { id: patientId },
-              });
+              } as never);
               toast({
                 title: "Updated successfully",
                 description: "The selected event is updated.",
@@ -209,7 +210,7 @@ export function MyCalendar(props: any) {
           console.log(response.data);
           setIsEventExist(true);
           setEventId(response.data.id);
-          setEvents([...events, response.data]);
+          setEvents([...events, response.data] as never);
           // console.log(event.start.toISOString());
           // console.log(event.end.toISOString());
           toast({
@@ -282,7 +283,7 @@ export function MyCalendar(props: any) {
       {!loading && (
         <Calendar
           components={{
-            dateCellWrapper: (props) => (
+            dateCellWrapper: (props: any) => (
               <TouchCellWrapper
                 value={undefined}
                 {...props}

@@ -105,7 +105,7 @@ function PatientDetails() {
         <Flex minWidth="max-content" alignItems="center" gap="2">
           <Spacer />
           <ButtonGroup gap="2">
-            <DeleteButton type={"patient"} id={id} />
+            <DeleteButton type={"patient"} id={id as string} />
           </ButtonGroup>
         </Flex>
         <Center>
@@ -287,31 +287,29 @@ function PatientDetails() {
 
                   {patient.encounters.length > 0 ? (
                     <UnorderedList>
-                      {patient.encounters
-                        .reverse()
-                        .map((encounter: Encounter) => {
-                          return (
-                            <ListItem>
-                              {" "}
-                              {!loading && encounter.serviceDate ? (
-                                <Link
-                                  color="blue.500"
-                                  onClick={() =>
-                                    handleEncounterClick(encounter.id)
-                                  }
-                                >
-                                  {format(
-                                    new Date(encounter.serviceDate),
-                                    "dd/MM/yyyy hh:mm bbb"
-                                  )}
-                                </Link>
-                              ) : (
-                                ""
-                              )}
-                              {loading && <Skeleton height="20px" />}
-                            </ListItem>
-                          );
-                        })}
+                      {patient.encounters.reverse().map((encounter: any) => {
+                        return (
+                          <ListItem>
+                            {" "}
+                            {!loading && encounter.serviceDate ? (
+                              <Link
+                                color="blue.500"
+                                onClick={() =>
+                                  handleEncounterClick(encounter.id)
+                                }
+                              >
+                                {format(
+                                  new Date(encounter.serviceDate),
+                                  "dd/MM/yyyy hh:mm bbb"
+                                )}
+                              </Link>
+                            ) : (
+                              ""
+                            )}
+                            {loading && <Skeleton height="20px" />}
+                          </ListItem>
+                        );
+                      })}
                     </UnorderedList>
                   ) : (
                     "Empty"

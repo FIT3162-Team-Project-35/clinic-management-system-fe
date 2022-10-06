@@ -90,7 +90,7 @@ function EncounterDetails() {
         <Flex minWidth="max-content" alignItems="center" gap="2">
           <Spacer />
           <ButtonGroup gap="2">
-            <DeleteButton type={"encounter"} id={id} />
+            <DeleteButton type={"encounter"} id={id as string} />
           </ButtonGroup>
         </Flex>
 

@@ -63,7 +63,7 @@ const DeleteButton = ({ type, id }: { type: string; id: string }) => {
       </Tooltip>
       <AlertDialog
         isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
+        leastDestructiveRef={cancelRef as any}
         onClose={onClose}
       >
         <AlertDialogOverlay>
@@ -77,7 +77,7 @@ const DeleteButton = ({ type, id }: { type: string; id: string }) => {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button ref={cancelRef as any} onClick={onClose}>
                 Cancel
               </Button>
               <Button colorScheme="red" onClick={onSubmit} ml={3}>
