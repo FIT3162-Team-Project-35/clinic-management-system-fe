@@ -87,7 +87,11 @@ function AddEncounterButton({
       headers: { "content-type": "multipart/form-data" },
     };
     setLoading(true);
-    ApiService.post("http://localhost:3001/encounter/recognition", form, config)
+    ApiService.post(
+      "https://clinic-management-be.herokuapp.com/encounter/recognition",
+      form,
+      config
+    )
       .then((response) => {
         const newEncounter = {
           diagnosis: response.data.diagnosis,
@@ -149,7 +153,7 @@ function AddEncounterButton({
 
     setLoading(true);
     await ApiService.post(
-      "http://localhost:3001/encounter/create",
+      "https://clinic-management-be.herokuapp.com/encounter/create",
       newEncounter
     )
       .then((response) => {

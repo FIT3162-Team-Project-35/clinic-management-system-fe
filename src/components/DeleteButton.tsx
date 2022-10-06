@@ -24,7 +24,9 @@ const DeleteButton = ({ type, id }: { type: string; id: string }) => {
 
   const onSubmit = async () => {
     if (type === "encounter") {
-      ApiService.delete(`http://localhost:3001/encounter/${id}`)
+      ApiService.delete(
+        `https://clinic-management-be.herokuapp.com/encounter/${id}`
+      )
         .then((response) => {
           onClose();
           navigate("/encounter");
@@ -33,7 +35,9 @@ const DeleteButton = ({ type, id }: { type: string; id: string }) => {
           console.log(err);
         });
     } else {
-      ApiService.delete(`http://localhost:3001/patient/${id}`)
+      ApiService.delete(
+        `https://clinic-management-be.herokuapp.com/patient/${id}`
+      )
         .then((response) => {
           onClose();
           navigate("/patient");

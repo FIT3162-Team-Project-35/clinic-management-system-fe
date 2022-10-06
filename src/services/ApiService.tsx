@@ -2,7 +2,8 @@ import axios from "axios";
 
 const ApiService = axios.create({
   // baseURL: "http://52.221.208.230:3001/",
-  baseURL: "http://localhost:3001/",
+  baseURL: "https://clinic-management-be.herokuapp.com/",
+  // baseURL: "http://localhost:3001/",
   timeout: 30000,
 });
 

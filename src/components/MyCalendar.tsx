@@ -139,7 +139,9 @@ export function MyCalendar(props: any) {
   const handleDelete = () => {
     if (isEventExist) {
       setLoading(true);
-      ApiService.delete(`http://localhost:3001/appointment/${eventId}`)
+      ApiService.delete(
+        `https://clinic-management-be.herokuapp.com/appointment/${eventId}`
+      )
         .then((response) => {
           onClose();
           console.log("Deleted successfully");
@@ -205,7 +207,10 @@ export function MyCalendar(props: any) {
         });
     } else {
       onClose();
-      ApiService.post("http://localhost:3001/appointment/create", event)
+      ApiService.post(
+        "https://clinic-management-be.herokuapp.com/appointment/create",
+        event
+      )
         .then((response) => {
           console.log(response.data);
           setIsEventExist(true);
