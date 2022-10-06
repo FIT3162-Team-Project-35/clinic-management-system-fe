@@ -16,8 +16,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import "react-dropzone-uploader/dist/styles.css";
-import Dropzone from "react-dropzone-uploader";
+// import "react-dropzone-uploader/dist/styles.css";
+// import Dropzone from "react-dropzone-uploader";
 import ApiService from "../services/ApiService";
 import { Patient } from "./PatientTable";
 import { useDispatch } from "react-redux";
@@ -156,14 +156,14 @@ function AddPatientButton({ p }: { p: Array<Patient> }) {
           <ModalBody pb={6}>
             <FormControl>
               {/* <Input ref={initialRef} placeholder="First name" /> */}
-              {!loading && (
+              {/* {!loading && (
                 <Dropzone
                   LayoutComponent={Layout}
                   getUploadParams={getUploadParams}
                   onSubmit={handleSubmit}
                   accept="image/*,audio/*,video/*"
                 />
-              )}
+              )} */}
 
               {loading && (
                 <Center>

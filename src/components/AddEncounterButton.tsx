@@ -18,8 +18,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import "react-dropzone-uploader/dist/styles.css";
-import Dropzone from "react-dropzone-uploader";
+// import "react-dropzone-uploader/dist/styles.css";
+// import Dropzone from "react-dropzone-uploader";
 import ApiService from "../services/ApiService";
 import { Patient } from "./PatientTable";
 import { useDispatch } from "react-redux";
@@ -218,12 +218,12 @@ function AddEncounterButton({
               {/* <Input ref={initialRef} placeholder="First name" /> */}
               {!loading && (
                 <>
-                  <Dropzone
+                  {/* <Dropzone
                     LayoutComponent={Layout}
                     getUploadParams={getUploadParams}
                     onSubmit={handleFileSubmit}
                     accept="image/*,audio/*,video/*"
-                  />
+                  /> */}
                   <br />
                   <FormControl>
                     <FormLabel>Diagnosis: </FormLabel>
