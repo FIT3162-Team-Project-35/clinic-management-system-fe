@@ -248,7 +248,11 @@ function AddEncounterButton({
                     {file ? (
                       <div>
                         <Center>
-                          <img src={file["source"]} alt="preview" />
+                          <img
+                            className="img-upload"
+                            src={file["source"]}
+                            alt="preview"
+                          />
                         </Center>
                         <span> Name: {file["name"]} </span>
                         <span> Size: {file["size"]} </span>
