@@ -83,7 +83,6 @@ function PatientDetails() {
       <Helmet>
         <title>Patient Details</title>
       </Helmet>
-      <EditPatientButton patient={patient}></EditPatientButton>
       <Container maxW={"7xl"}>
         <Breadcrumb
           spacing="8px"
@@ -106,6 +105,7 @@ function PatientDetails() {
           <Spacer />
           <ButtonGroup gap="2">
             <DeleteButton type={"patient"} id={id as string} />
+            <EditPatientButton patient={patient}></EditPatientButton>
           </ButtonGroup>
         </Flex>
         <Center>
@@ -283,36 +283,42 @@ function PatientDetails() {
                 </Text>
 
                 <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                  {loading && <Skeleton height="20px" />}
-
-                  {patient.encounters.length > 0 ? (
-                    <UnorderedList>
-                      {patient.encounters.reverse().map((encounter: any) => {
-                        return (
-                          <ListItem>
-                            {" "}
-                            {!loading && encounter.serviceDate ? (
-                              <Link
-                                color="blue.500"
-                                onClick={() =>
-                                  handleEncounterClick(encounter.id)
-                                }
-                              >
-                                {format(
-                                  new Date(encounter.serviceDate),
-                                  "dd/MM/yyyy hh:mm bbb"
-                                )}
-                              </Link>
-                            ) : (
-                              ""
-                            )}
-                            {loading && <Skeleton height="20px" />}
-                          </ListItem>
-                        );
-                      })}
-                    </UnorderedList>
+                  {!loading ? (
+                    <>
+                      {patient.encounters.length > 0 ? (
+                        <UnorderedList>
+                          {patient.encounters
+                            .reverse()
+                            .map((encounter: any) => {
+                              return (
+                                <ListItem>
+                                  {" "}
+                                  {!loading && encounter.serviceDate ? (
+                                    <Link
+                                      color="blue.500"
+                                      onClick={() =>
+                                        handleEncounterClick(encounter.id)
+                                      }
+                                    >
+                                      {format(
+                                        new Date(encounter.serviceDate),
+                                        "dd/MM/yyyy hh:mm bbb"
+                                      )}
+                                    </Link>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {loading && <Skeleton height="20px" />}
+                                </ListItem>
+                              );
+                            })}
+                        </UnorderedList>
+                      ) : (
+                        "Empty"
+                      )}
+                    </>
                   ) : (
-                    "Empty"
+                    <Skeleton height="20px" />
                   )}
                 </SimpleGrid>
               </Box>

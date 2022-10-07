@@ -28,14 +28,20 @@ function DashboardCard({
   const property = {
     imageUrl: "https://www.excel-easy.com/smi/examples/line-chart.png",
     imageAlt: "Today's patient appointment",
-    appointmentTitle: "Appointments of Last Three Days",
+    appointmentTitle: "Appointments of Last 3 Days",
     recentPatientTitle: "Recent Patients",
   };
 
   const recentPatients = patients.slice(-10).reverse();
   return (
     <Flex direction={["column", "column", "row"]}>
-      <Box maxW="m" borderWidth="1px" borderRadius="lg" overflow="hidden">
+      <Box
+        maxW="m"
+        borderWidth="1px"
+        borderRadius="lg"
+        overflowX="scroll"
+        m={2}
+      >
         <Box p={["10", "35", "50"]}>
           <Box display="flex" alignItems="baseline"></Box>
           <Box
@@ -55,7 +61,7 @@ function DashboardCard({
         ></PatientGraph>
       </Box>
 
-      <Box maxW="m" borderWidth="1px" borderRadius="lg" overflow="hidden">
+      <Box maxW="m" borderWidth="1px" borderRadius="lg" overflow="scroll">
         <Box p="6">
           <Box display="flex" alignItems="baseline"></Box>
           <Box
