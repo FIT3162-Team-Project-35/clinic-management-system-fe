@@ -298,6 +298,7 @@ export function MyCalendar(props: any) {
           events={events}
           formats={formats}
           localizer={localizer}
+          views={["month", "agenda"]}
           selectable
           onSelectEvent={onSelectEvent}
           onSelectSlot={onSelectSlot}
