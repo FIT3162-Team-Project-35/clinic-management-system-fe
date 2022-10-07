@@ -50,3 +50,8 @@ button {
 
   margin-bottom: 20px;
 }
+
+img {
+  width: 100px;
+  padding: 1em;
+}

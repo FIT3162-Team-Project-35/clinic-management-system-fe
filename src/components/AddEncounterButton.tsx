@@ -25,6 +25,7 @@ import { Patient } from "./PatientTable";
 import { useDispatch } from "react-redux";
 import { Encounter } from "./EncounterTable";
 import { addEncounters } from "../store/encounter.slice";
+import { useFileUpload } from "use-file-upload";
 
 function AddEncounterButton({
   e,
@@ -47,6 +48,8 @@ function AddEncounterButton({
   const [nextAppointmentDate, setAppointmentDate] = useState("");
   const [patientId, setPatientId] = useState("");
   const [files, setFiles] = useState([]);
+  const [file, selectFile] = useFileUpload();
+
   const handleDrop = (acceptedFiles) => {
     setFiles(acceptedFiles);
   };
@@ -54,7 +57,9 @@ function AddEncounterButton({
   // receives array of files that are done uploading when submit button is clicked
   const handleFileSubmit = (files: any) => {
     const form = new FormData();
-    form.append("file", files[0]);
+    // form.append("file", files[0]);
+    form.append("file", file["file"]);
+
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
@@ -188,7 +193,7 @@ function AddEncounterButton({
               {/* <Input ref={initialRef} placeholder="First name" /> */}
               {!loading && (
                 <>
-                  <Dropzone
+                  {/* <Dropzone
                     accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
                     onDrop={handleDrop}
                   >
@@ -209,6 +214,48 @@ function AddEncounterButton({
                         <li key={file.name}>{file.name}</li>
                       ))}
                     </ul>
+                  </div> */}
+                  {/* new file upload */}
+                  <div>
+                    <Center>
+                      <Button
+                        onClick={() => {
+                          // Single File Upload accepts only images
+                          selectFile(
+                            { accept: "image/*" } as any,
+                            ({
+                              source,
+                              name,
+                              size,
+                              file,
+                            }: {
+                              source: any;
+                              name: any;
+                              size: any;
+                              file: any;
+                            }) => {
+                              // file - is the raw File Object
+                              console.log({ source, name, size, file });
+                              // Todo: Upload to cloud.
+                            }
+                          );
+                        }}
+                      >
+                        Click to Upload
+                      </Button>
+                    </Center>
+                    <br />
+                    {file ? (
+                      <div>
+                        <Center>
+                          <img src={file["source"]} alt="preview" />
+                        </Center>
+                        <span> Name: {file["name"]} </span>
+                        <span> Size: {file["size"]} </span>
+                      </div>
+                    ) : (
+                      <span>No file selected</span>
+                    )}
                   </div>
                   <br />
                   <Button
