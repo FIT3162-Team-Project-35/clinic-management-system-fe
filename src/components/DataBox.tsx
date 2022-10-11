@@ -12,8 +12,8 @@ function DataBox({
 }) {
   const data = {
     noPatient: patients.length,
-    noEncounter: appointments.length,
-    noAppointment: encounters.length,
+    noEncounter: encounters.length,
+    noAppointment: appointments.length,
   };
 
   return (
