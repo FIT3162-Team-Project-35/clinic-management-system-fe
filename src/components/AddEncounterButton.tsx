@@ -120,8 +120,8 @@ function AddEncounterButton({
     const newEncounter = {
       diagnosis: diagnosis,
       additionalNotes: additionalNotes,
-      serviceDate: new Date(serviceDate),
-      nextAppointment: new Date(nextAppointmentDate),
+      serviceDate: serviceDate,
+      nextAppointment: nextAppointmentDate,
       patientId: patientId ? patientId : p[0],
       doctor: doctor,
     };

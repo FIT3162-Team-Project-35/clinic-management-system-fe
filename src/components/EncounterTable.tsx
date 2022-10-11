@@ -148,8 +148,7 @@ export default function EncounterTable({ encounters }: { encounters: any }) {
       footer: (info) => info.column.id,
       cell: (info) => info.getValue(),
       id: "serviceDate",
-      accessorFn: (row) =>
-        `${format(new Date(row.serviceDate), "dd/MM/yyyy hh:mm bbb")}`,
+      accessorFn: (row) => `${row.serviceDate}`,
     },
     {
       header: () => <span>Diagnosed by</span>,

@@ -300,10 +300,7 @@ function PatientDetails() {
                                         handleEncounterClick(encounter.id)
                                       }
                                     >
-                                      {format(
-                                        new Date(encounter.serviceDate),
-                                        "dd/MM/yyyy hh:mm bbb"
-                                      )}
+                                      {encounter.serviceDate}
                                     </Link>
                                   ) : (
                                     ""
