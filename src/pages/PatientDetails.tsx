@@ -104,7 +104,7 @@ function PatientDetails() {
         <Flex minWidth="max-content" alignItems="center" gap="2">
           <Spacer />
           <ButtonGroup gap="2">
-            <DeleteButton type={"patient"} id={id as string} />
+            <DeleteButton type={"patient"} id={patient.id as string} />
             <EditPatientButton patient={patient}></EditPatientButton>
           </ButtonGroup>
         </Flex>

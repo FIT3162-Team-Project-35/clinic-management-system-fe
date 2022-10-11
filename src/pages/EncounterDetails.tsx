@@ -38,6 +38,7 @@ function EncounterDetails() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [encounter, setEncounter] = useState({
+    id: "",
     diagnosis: "",
     additionalNotes: "",
     serviceDate: "",
@@ -90,7 +91,7 @@ function EncounterDetails() {
         <Flex minWidth="max-content" alignItems="center" gap="2">
           <Spacer />
           <ButtonGroup gap="2">
-            <DeleteButton type={"encounter"} id={id as string} />
+            <DeleteButton type={"encounter"} id={encounter.id as string} />
           </ButtonGroup>
         </Flex>
 
