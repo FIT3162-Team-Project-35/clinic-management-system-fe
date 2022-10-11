@@ -96,8 +96,9 @@ function AddEncounterButton({
 
         setLoading(false);
         toast({
-          title: "Added Encounters",
-          description: "You may refresh the page to view the new records now.",
+          title: "Recognized Diagnosis Form",
+          description:
+            "You may view the info were inserted into the relative fields.",
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -122,7 +123,7 @@ function AddEncounterButton({
       additionalNotes: additionalNotes,
       serviceDate: serviceDate,
       nextAppointment: nextAppointmentDate,
-      patientId: patientId ? patientId : p[0],
+      patientId: patientId ? patientId : p[0].id,
       doctor: doctor,
     };
 
