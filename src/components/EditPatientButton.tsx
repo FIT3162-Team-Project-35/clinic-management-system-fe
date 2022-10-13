@@ -107,13 +107,13 @@ function EditPatientButton({ patient }: { patient: any }) {
                         <Input
                           name="firstName"
                           ref={initialRef}
-                          placeholder="First name"
+                          placeholder="First Name"
                           defaultValue={patient.firstName}
                           onChange={handleChange}
                         />
                       </FormControl>
                       <FormControl mt={4}>
-                        <FormLabel>LastName</FormLabel>
+                        <FormLabel>Last Name</FormLabel>
                         <Input
                           name="lastName"
                           ref={initialRef}
@@ -188,7 +188,7 @@ function EditPatientButton({ patient }: { patient: any }) {
                         Emergency Contact
                       </Text>
                       <FormControl mt={4}>
-                        <FormLabel>Full Name</FormLabel>
+                        <FormLabel>First Name</FormLabel>
                         <Input
                           name="emergencyFirstName"
                           placeholder="Emergency Contact First Name"
@@ -197,7 +197,7 @@ function EditPatientButton({ patient }: { patient: any }) {
                         />
                       </FormControl>
                       <FormControl mt={4}>
-                        <FormLabel>Full Name</FormLabel>
+                        <FormLabel>Last Name</FormLabel>
                         <Input
                           name="emergencyLastName"
                           placeholder="Emergency Contact Last Name"
