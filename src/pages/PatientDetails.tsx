@@ -147,7 +147,7 @@ function PatientDetails() {
                   <List spacing={2}>
                     <ListItem>Full Name</ListItem>
                     <ListItem>Gender</ListItem>
-                    <ListItem>Contact No</ListItem>
+                    <ListItem>Contact Number</ListItem>
                     <ListItem>Date Of Birth</ListItem>
                     <ListItem>Address</ListItem>
                     <ListItem>City</ListItem>
@@ -222,7 +222,7 @@ function PatientDetails() {
                 <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                   <List spacing={2}>
                     <ListItem>Full Name</ListItem>
-                    <ListItem>Contact No</ListItem>
+                    <ListItem>Contact Number</ListItem>
                     <ListItem>Relationship</ListItem>
                   </List>
                   <List spacing={2}>
